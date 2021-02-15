@@ -18,7 +18,8 @@ buildscript {
 apply<KorgeGradlePlugin>()
 
 korge {
-	id = "com.cis4030.guelphrpg"
+	id = "cis4030.gis.gis"
+	supportSwf()
 // To enable all targets at once
 
 	//targetAll()
