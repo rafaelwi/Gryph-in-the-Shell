@@ -1,3 +1,10 @@
-/.idea
 /.gradle
+/.idea
+/build
 *.iml
+*.hprof
+*.log
+gradlew
+gradlew.bat
+/gradlew/gradle-wrapper.jar
+./gradle/gradle-wrapper.jar
