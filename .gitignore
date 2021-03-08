@@ -1,3 +1,13 @@
 /.idea
 /.gradle
+/gradle
+/build
+*.bat
+gradlew
+gradlew.bat
+gradlew_linux
+gradlew_win
+gradlew_wine
+local.properties
+settings.gradle
 *.iml
