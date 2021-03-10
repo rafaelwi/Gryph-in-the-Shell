@@ -1,26 +1,35 @@
-import com.soywiz.klock.seconds
-import com.soywiz.korge.*
-import com.soywiz.korge.tween.*
-import com.soywiz.korge.view.*
+import com.soywiz.korge.Korge
+import com.soywiz.korge.scene.Module
+import com.soywiz.korge.scene.Scene
 import com.soywiz.korim.color.Colors
-import com.soywiz.korim.format.*
-import com.soywiz.korio.file.std.*
-import com.soywiz.korma.geom.degrees
-import com.soywiz.korma.interpolation.Easing
+import com.soywiz.korim.color.RGBA
+import com.soywiz.korinject.AsyncInjector
+import com.soywiz.korma.geom.ScaleMode
+import com.soywiz.korma.geom.SizeInt
+import scenes.BattleScene
+import scenes.MapScene
+import scenes.SettingsScene
+import scenes.TitleScene
+import kotlin.reflect.KClass
 
-suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
-	val minDegrees = (-16).degrees
-	val maxDegrees = (+16).degrees
+suspend fun main() = Korge(Korge.Config(module = MainModule))
 
-	val image = image(resourcesVfs["korge.png"].readBitmap()) {
-		rotation = maxDegrees
-		anchor(.5, .5)
-		scale(.8)
-		position(256, 256)
-	}
+object MainModule : Module() {
+    override val mainScene: KClass<out Scene> = TitleScene::class // Sets the first scene
+    override val title: String = "Gryph in the Shell"
+    override val scaleMode: ScaleMode = ScaleMode.COVER
+    override val bgcolor: RGBA = Colors.BLACK
 
-	while (true) {
-		image.tween(image::rotation[minDegrees], time = 1.seconds, easing = Easing.EASE_IN_OUT)
-		image.tween(image::rotation[maxDegrees], time = 1.seconds, easing = Easing.EASE_IN_OUT)
-	}
+    // Note! This is the resolution of the Pixel 3a that's being used in the emulator.
+    // Work is needed to get things to properly scale for different screen sizes and aspect ratios
+    // See https://korlibs.soywiz.com/korge/reference/resolutions/#aspect-ratio
+    override val size = SizeInt(1080, 2220) // Virtual size
+    override val windowSize = SizeInt(360, 740)
+
+    override suspend fun AsyncInjector.configure() {
+        mapPrototype { BattleScene() }
+        mapPrototype { MapScene() }
+        mapPrototype { SettingsScene() }
+        mapPrototype { TitleScene() }
+    }
 }

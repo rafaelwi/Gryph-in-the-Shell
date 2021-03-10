@@ -19,19 +19,15 @@ apply<KorgeGradlePlugin>()
 
 korge {
 	id = "cis4030.gis.gis"
+	name = "Gryph in the Shell"
 	supportSwf()
-// To enable all targets at once
+// To enable all targets at once: targetAll()
 
-	//targetAll()
-
-// To enable targets based on properties/environment variables
-	//targetDefault()
-
-// To selectively enable targets
-
+// To enable targets based on properties/environment variables: targetDefault()
 	targetJvm()
 	targetJs()
 	targetDesktop()
 	targetIos()
-	targetAndroidIndirect() // targetAndroidDirect()
+	targetAndroidIndirect()
+	targetAndroidDirect()
 }
