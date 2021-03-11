@@ -1,5 +1,7 @@
-/.idea
 /.gradle
+/.idea
+/gradlew/gradle-wrapper.jar
+./gradle/gradle-wrapper.jar
 /gradle
 /build
 *.bat
@@ -11,3 +13,5 @@ gradlew_wine
 local.properties
 settings.gradle
 *.iml
+*.hprof
+*.log
