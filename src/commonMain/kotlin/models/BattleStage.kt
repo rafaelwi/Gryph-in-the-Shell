@@ -1,5 +1,6 @@
 package models
 
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
@@ -8,7 +9,7 @@ import com.soywiz.korma.geom.Anchor
 import factories.BattleManager
 
 class BattleStage(val levelName: String,
-                  val score: Int? = null,
+                  val score: TimeSpan,
                   val battleManager: BattleManager,
                   private val mainEnemy: Enemy,
                   val currentPlayer: Player): Container() {
