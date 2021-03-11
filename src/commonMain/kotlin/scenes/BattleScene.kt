@@ -6,6 +6,7 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
+import models.BattleStage
 
 class BattleScene : Scene() {
     // Entrypoint
