@@ -8,3 +8,4 @@ gradlew
 gradlew.bat
 /gradlew/gradle-wrapper.jar
 ./gradle/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.jar
