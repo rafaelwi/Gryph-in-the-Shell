@@ -1,7 +1,7 @@
-package models
+package models.entities
 
 open class PlayerEntity(private val name: String,
-                        maxHealth: Int) {
+                        maxHealth: Double) {
 
     private var currentHealth = maxHealth;
 
@@ -9,7 +9,7 @@ open class PlayerEntity(private val name: String,
         return name
     }
 
-    fun getHealth(): Int {
+    fun getHealth(): Double {
         return currentHealth
     }
 
