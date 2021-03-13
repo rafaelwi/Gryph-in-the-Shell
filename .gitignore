@@ -15,3 +15,4 @@ settings.gradle
 *.iml
 *.hprof
 *.log
+/gradle/wrapper/gradle-wrapper.jar

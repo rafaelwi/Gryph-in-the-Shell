@@ -5,6 +5,8 @@ import com.soywiz.korge.tween.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
 import com.soywiz.korma.geom.*
+import map.GameMap
+import map.Placemarker
 import kotlin.test.*
 
 class MyTest : ViewsForTesting() {
@@ -22,5 +24,21 @@ class MyTest : ViewsForTesting() {
 		assertEquals(Rectangle(x=-102, y=0, width=100, height=100), rect.globalBounds)
 		assertEquals(false, rect.isVisibleToUser())
 		assertEquals(listOf("clicked"), log)
+	}
+
+	@Test
+	fun testPlacemarker() {
+		val pm = Placemarker(1, 100, 200)
+		println(pm.toString())
+	}
+
+	@Test
+	fun testGameMap() {
+		val m = GameMap(1, listOf(
+				Placemarker(1, 100, 100),
+				Placemarker(2, 200, 200),
+				Placemarker(3, 300, 300)
+		))
+		println(m.toString())
 	}
 }
