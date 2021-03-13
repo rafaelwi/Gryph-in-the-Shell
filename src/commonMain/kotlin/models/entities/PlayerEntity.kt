@@ -1,7 +1,7 @@
 package models.entities
 
 open class PlayerEntity(private val name: String,
-                        maxHealth: Double) {
+                        private val maxHealth: Double) {
 
     private var currentHealth = maxHealth;
 
@@ -9,11 +9,15 @@ open class PlayerEntity(private val name: String,
         return name
     }
 
+    fun getMaxHealth(): Double {
+        return maxHealth
+    }
+
     fun getHealth(): Double {
         return currentHealth
     }
 
     fun reduceHealth(damage: Int) {
-        currentHealth -= damage
+        if (currentHealth > 0) currentHealth -= damage
     }
 }

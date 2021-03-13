@@ -2,14 +2,16 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klogger.Console
+import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.*
-import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
 import factories.BattleManager
 import models.entities.Enemy
 import models.entities.Player
+import models.gui.PlayerGui
 
 class BattleStage(val levelName: String,
                   val score: TimeSpan?,
@@ -17,6 +19,8 @@ class BattleStage(val levelName: String,
                   private val currentEnemy: Enemy,
                   val currentPlayer: Player): Container() {
 
+    private var playerStats = currentPlayer
+    private var enemyStats = currentEnemy
     private lateinit var enemySprite: Sprite
     private lateinit var playerGui: Container
 
@@ -27,7 +31,7 @@ class BattleStage(val levelName: String,
     }
 
     suspend fun initGui() {
-        playerGui = this.buildGui(battleManager, currentPlayer, currentEnemy)
+        playerGui = this.buildGui(battleManager, playerStats, enemyStats)
         this.addChild(playerGui)
     }
 
@@ -40,6 +44,10 @@ class BattleStage(val levelName: String,
         enemySprite.xy(MainModule.size.width / 2.0, MainModule.size.height / 2.0)
         enemySprite.anchor(Anchor.MIDDLE_CENTER)
         this.startAnimation()
+
+        enemySprite.onClick {
+            playerStats.reduceHealth(10)
+        }
     }
 
     private suspend fun buildGui(battleManager: BattleManager, currentPlayer: Player, currentEnemy: Enemy): Container {
@@ -49,7 +57,7 @@ class BattleStage(val levelName: String,
     }
 
     private suspend fun buildEnemySprite(): Sprite {
-        val enemySpriteMap = resourcesVfs[currentEnemy.spriteFile].readBitmap()
+        val enemySpriteMap = resourcesVfs[enemyStats.spriteFile].readBitmap()
         val enemyInitialAnim = SpriteAnimation(
                 spriteMap = enemySpriteMap,
                 spriteWidth = 41,
