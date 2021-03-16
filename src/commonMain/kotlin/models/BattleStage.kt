@@ -2,7 +2,6 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
-import com.soywiz.klogger.Console
 import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
@@ -15,7 +14,7 @@ import models.gui.PlayerGui
 
 class BattleStage(val levelName: String,
                   val score: TimeSpan?,
-                  val battleManager: BattleManager,
+                  val battleManager: BattleManager?,
                   private val currentEnemy: Enemy,
                   val currentPlayer: Player): Container() {
 
@@ -50,7 +49,7 @@ class BattleStage(val levelName: String,
         }
     }
 
-    private suspend fun buildGui(battleManager: BattleManager, currentPlayer: Player, currentEnemy: Enemy): Container {
+    private suspend fun buildGui(battleManager: BattleManager?, currentPlayer: Player, currentEnemy: Enemy): Container {
         val playerGui = PlayerGui(battleManager, currentPlayer, currentEnemy)
 
         return playerGui
