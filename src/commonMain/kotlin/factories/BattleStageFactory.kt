@@ -11,7 +11,7 @@ object BattleStageFactory {
 
     //}
 
-    fun createTestStage(battleManager: BattleManager): BattleStage {
+    fun createTestStage(battleManager: BattleManager?): BattleStage {
 
         val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png")
         val testPlayer = Player("testPlayer", 100.0)

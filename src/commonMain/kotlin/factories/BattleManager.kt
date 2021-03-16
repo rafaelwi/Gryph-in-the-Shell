@@ -3,7 +3,7 @@ package factories
 import com.soywiz.korge.view.Container
 import constants.BattleStatus
 
-class BattleManager(private val container: Container) {
+class BattleManager(private val container : Container) {
 
     var isOngoing = false;
     var battleStatus = BattleStatus.NOT_STARTED
