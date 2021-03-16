@@ -21,7 +21,7 @@ class LevelData(val levelName: String,
                 val levelManager: LevelManager,
                 private val currentEnemy: Enemy,
                 val currentPlayer: Player,
-                val stageInfo: LevelBackground?): Container() {
+                val levelBackground: LevelBackground?): Container() {
 
     private lateinit var enemySprite: Sprite
     private lateinit var playerGui: Container
@@ -108,4 +108,9 @@ class LevelData(val levelName: String,
         enemySprite.stopAnimation()
     }
 
+    override fun toString(): String {
+        return "LevelData levelName: ${this.levelName}\n\tScore: ${this.score}\n\t" +
+                "levelManager: ${this.levelManager.toString()}\n\tcurrentEnemy: ${this.currentEnemy.toString()}\n\t" +
+                "currentPlayer: ${this.currentPlayer.toString()}\n\tstageInfo: ${this.levelBackground.toString()}\n\t"
+    }
 }
