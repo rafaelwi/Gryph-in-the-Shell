@@ -1,7 +1,7 @@
 package map
 
 import com.soywiz.klock.TimeSpan
-import models.BattleStage
+import models.LevelData
 
 class Placemarker(
         val level: Int,
@@ -9,7 +9,7 @@ class Placemarker(
         var yLocation: Int,
         var bestTime: TimeSpan = TimeSpan(60000.0), // 60000.0ms = 60s; https://korlibs.soywiz.com/klock/#timespan
         var complete: Boolean = false,
-        var levelData: BattleStage?, // Holds the information about the level its attached to
+        var levelData: LevelData?, // Holds the information about the level its attached to
     // var monsterOnTile : Sprite, // Sprite of the monster on the tile
 ) {
     override fun toString(): String {
