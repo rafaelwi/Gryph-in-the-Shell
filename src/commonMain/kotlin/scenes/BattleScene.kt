@@ -9,7 +9,6 @@ import factories.LevelDataFactory
 class BattleScene : Scene() {
     // Entrypoint
     override suspend fun Container.sceneInit() {
-
         val game = LevelManager(this, sceneContainer)
         val battleStage = LevelDataFactory.createTestLevel(game)
         addChild(battleStage)

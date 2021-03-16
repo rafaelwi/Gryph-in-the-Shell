@@ -18,6 +18,4 @@ class LevelManager(private val container : Container, val sceneContainer: SceneC
         isOngoing = false
         battleStatus = LevelStatus.FINISHED
     }
-
-
 }
