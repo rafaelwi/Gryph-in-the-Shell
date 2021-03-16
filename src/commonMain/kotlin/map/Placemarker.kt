@@ -15,6 +15,4 @@ class Placemarker(
     override fun toString(): String {
         return "Placemarker Level: ${this.level}\n\txLocation: ${this.xLocation}\n\tyLocation: ${this.yLocation}\n\tBestTime: ${this.bestTime.toString()}\n\tComplete?: ${this.complete}"
     }
-
-
 }
