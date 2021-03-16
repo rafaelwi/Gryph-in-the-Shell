@@ -55,7 +55,7 @@ class LevelData(val levelName: String,
         this.startAnimation()
 
         enemySprite.onClick {
-            currentPlayer.reduceHealth(10)
+            currentEnemy.reduceHealth(10)
         }
     }
 

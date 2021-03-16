@@ -8,7 +8,10 @@ import models.gui.LevelBackground
 
 object LevelDataFactory {
 
-
+    /**
+     * This function could take something else, like a JSON object or something.
+     * This is just a placeholder as is.
+     */
     fun createLevel(levelManager: LevelManager, playerScore: TimeSpan?, enemy: Enemy, player: Player, background: LevelBackground): LevelData {
         return LevelData("testName", playerScore, levelManager, enemy, player, background);
     }
