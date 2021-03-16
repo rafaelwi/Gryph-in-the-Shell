@@ -13,12 +13,12 @@ object LevelDataFactory {
         return LevelData("testName", playerScore, levelManager, enemy, player, background);
     }
 
-    fun createTestLevel(levelManager: LevelManager?): LevelData {
+    fun createTestLevel(levelManager: LevelManager): LevelData {
 
         val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png")
         val testPlayer = Player("testPlayer", 100.0)
 
-        return LevelData("TestStage", null, levelManager, testEnemy, testPlayer)
+        return LevelData("TestStage", null, levelManager, testEnemy, testPlayer, null)
     }
 
 }

@@ -2,6 +2,8 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klock.timesPerSecond
+import com.soywiz.klogger.Console
 import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
@@ -10,29 +12,35 @@ import com.soywiz.korma.geom.Anchor
 import factories.LevelManager
 import models.entities.Enemy
 import models.entities.Player
+import models.gui.GameOverMenu
 import models.gui.LevelBackground
 import models.gui.PlayerGui
 
 class LevelData(val levelName: String,
                 val score: TimeSpan?,
-                val levelManager: LevelManager?,
-                val currentEnemy: Enemy,
+                val levelManager: LevelManager,
+                private val currentEnemy: Enemy,
                 val currentPlayer: Player,
                 val stageInfo: LevelBackground?): Container() {
 
-    private var playerStats = currentPlayer
-    private var enemyStats = currentEnemy
     private lateinit var enemySprite: Sprite
     private lateinit var playerGui: Container
+    private lateinit var gameOverMenu: Container
 
     suspend fun init() {
+        levelManager.start()
         initStage()
         initGui()
         initEnemy()
+        initGameOverMenu()
+
+        addFixedUpdater(10.timesPerSecond) {
+            this.checkGameStatus(score)
+        }
     }
 
     suspend fun initGui() {
-        playerGui = this.buildGui(playerStats, enemyStats)
+        playerGui = this.buildGui(currentPlayer, currentEnemy)
         this.addChild(playerGui)
     }
 
@@ -47,18 +55,40 @@ class LevelData(val levelName: String,
         this.startAnimation()
 
         enemySprite.onClick {
-            playerStats.reduceHealth(10)
+            currentPlayer.reduceHealth(10)
         }
     }
 
+    suspend fun initGameOverMenu() {
+        gameOverMenu = this.buildGameOverMenu(levelManager)
+    }
+
+    /** Game Status Updater */
+    private fun checkGameStatus(dt: TimeSpan?) {
+        if ((currentPlayer.getHealth() == 0.0 || currentEnemy.getHealth() == 0.0) && levelManager.isOngoing)  {
+            Console.log("hit");
+            levelManager.finish()
+            this.addChild(gameOverMenu)
+        }
+    }
+
+    private suspend fun buildGameOverMenu(levelManager: LevelManager): Container {
+        val gameOverMenu = GameOverMenu(levelManager)
+        gameOverMenu.position(MainModule.size.width / 2.0, MainModule.size.height / 2.0).scale(4.0, 4.0)
+
+        return gameOverMenu
+    }
+
+    /** GUI */
     private suspend fun buildGui(currentPlayer: Player, currentEnemy: Enemy): Container {
         val playerGui = PlayerGui(currentPlayer, currentEnemy)
 
         return playerGui
     }
 
+    /** Enemy Sprite */
     private suspend fun buildEnemySprite(): Sprite {
-        val enemySpriteMap = resourcesVfs[enemyStats.spriteFile].readBitmap()
+        val enemySpriteMap = resourcesVfs[currentEnemy.spriteFile].readBitmap()
         val enemyInitialAnim = SpriteAnimation(
                 spriteMap = enemySpriteMap,
                 spriteWidth = 41,
