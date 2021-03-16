@@ -1,12 +1,12 @@
 package map
 
-import models.BattleStage
+import models.LevelData
 
 
 object GameMapFactory {
-    fun createTestGameMap(battleStage: BattleStage?) : GameMap {
+    fun createTestGameMap(levelData: LevelData?) : GameMap {
         val list = listOf(
-                PlacemarkerFactory.createTestPlacemarker(battleStage, MainModule.size.width / 2, MainModule.size.height / 2))
+                PlacemarkerFactory.createTestPlacemarker(levelData, MainModule.size.width / 2, MainModule.size.height / 2))
         return GameMap(1, "map\\grass.png", list)
     }
 

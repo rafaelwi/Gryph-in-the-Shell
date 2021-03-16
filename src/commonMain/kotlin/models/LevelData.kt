@@ -7,16 +7,16 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
-import factories.BattleManager
+import factories.LevelManager
 import models.entities.Enemy
 import models.entities.Player
 import models.gui.PlayerGui
 
-class BattleStage(val levelName: String,
-                  val score: TimeSpan?,
-                  val battleManager: BattleManager?,
-                  private val currentEnemy: Enemy,
-                  val currentPlayer: Player): Container() {
+class LevelData(val levelName: String,
+                val score: TimeSpan?,
+                val levelManager: LevelManager?,
+                private val currentEnemy: Enemy,
+                val currentPlayer: Player): Container() {
 
     private var playerStats = currentPlayer
     private var enemyStats = currentEnemy
@@ -30,7 +30,7 @@ class BattleStage(val levelName: String,
     }
 
     suspend fun initGui() {
-        playerGui = this.buildGui(battleManager, playerStats, enemyStats)
+        playerGui = this.buildGui(levelManager, playerStats, enemyStats)
         this.addChild(playerGui)
     }
 
@@ -49,8 +49,8 @@ class BattleStage(val levelName: String,
         }
     }
 
-    private suspend fun buildGui(battleManager: BattleManager?, currentPlayer: Player, currentEnemy: Enemy): Container {
-        val playerGui = PlayerGui(battleManager, currentPlayer, currentEnemy)
+    private suspend fun buildGui(levelManager: LevelManager?, currentPlayer: Player, currentEnemy: Enemy): Container {
+        val playerGui = PlayerGui(levelManager, currentPlayer, currentEnemy)
 
         return playerGui
     }

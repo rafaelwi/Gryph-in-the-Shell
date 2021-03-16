@@ -6,16 +6,15 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
-import factories.BattleManager
-import factories.BattleStageFactory
-import models.BattleStage
+import factories.LevelManager
+import factories.LevelDataFactory
 
 class BattleScene : Scene() {
     // Entrypoint
     override suspend fun Container.sceneInit() {
 
-        val game = BattleManager(this)
-        val battleStage = BattleStageFactory.createTestStage(game)
+        val game = LevelManager(this)
+        val battleStage = LevelDataFactory.createTestStage(game)
         addChild(battleStage)
         battleStage.init()
 

@@ -1,22 +1,22 @@
 package factories
 
 import models.entities.Enemy
-import models.BattleStage
+import models.LevelData
 import models.entities.Player
 
-object BattleStageFactory {
+object LevelDataFactory {
 
 
     //fun createStage(): BattleStage {
 
     //}
 
-    fun createTestStage(battleManager: BattleManager?): BattleStage {
+    fun createTestStage(levelManager: LevelManager?): LevelData {
 
         val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png")
         val testPlayer = Player("testPlayer", 100.0)
 
-        return BattleStage("TestStage", null, battleManager, testEnemy, testPlayer)
+        return LevelData("TestStage", null, levelManager, testEnemy, testPlayer)
     }
 
 }

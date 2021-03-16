@@ -2,11 +2,11 @@ package models.gui
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
-import factories.BattleManager
+import factories.LevelManager
 import models.entities.Enemy
 import models.entities.Player
 
-class PlayerGui(private val battle: BattleManager?, private val currentPlayer: Player, private val currentEnemy: Enemy): Container() {
+class PlayerGui(private val level: LevelManager?, private val currentPlayer: Player, private val currentEnemy: Enemy): Container() {
 
     private var playerHealthBar: Container
     private var enemyHealthBar: Container
