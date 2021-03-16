@@ -1,10 +1,10 @@
 package map
 
-import models.BattleStage
+import models.LevelData
 
 object PlacemarkerFactory {
-    fun createTestPlacemarker(battleStage: BattleStage?, x: Int, y: Int) : Placemarker {
-        return Placemarker(1, x, y, levelData = battleStage)
+    fun createTestPlacemarker(levelData: LevelData?, x: Int, y: Int) : Placemarker {
+        return Placemarker(1, x, y, levelData = levelData)
     }
 
     /*
