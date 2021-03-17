@@ -2,11 +2,10 @@ package models.gui
 
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
-import factories.LevelManager
 import models.entities.Enemy
 import models.entities.Player
 
-class PlayerGui(private val level: LevelManager?, private val currentPlayer: Player, private val currentEnemy: Enemy): Container() {
+class PlayerGui(private val currentPlayer: Player, private val currentEnemy: Enemy): Container() {
 
     private var playerHealthBar: Container
     private var enemyHealthBar: Container
@@ -15,7 +14,6 @@ class PlayerGui(private val level: LevelManager?, private val currentPlayer: Pla
         playerHealthBar = PlayerHealthBarComponent(currentPlayer, Colors.GREEN)
         enemyHealthBar = HealthBarComponent(currentEnemy, Colors.RED)
         this.buildHealthGui(playerHealthBar, enemyHealthBar)
-
     }
 
     private fun buildHealthGui(playerHealthBar: Container, enemyHealthBar: Container) {

@@ -20,4 +20,8 @@ open class PlayerEntity(private val name: String,
     fun reduceHealth(damage: Int) {
         if (currentHealth > 0) currentHealth -= damage
     }
+
+    override fun toString(): String {
+        return "PlayerEntity name: ${this.name}\n\tmaxHealth: ${this.maxHealth}\n\tcurrentHealth: ${this.currentHealth}"
+    }
 }

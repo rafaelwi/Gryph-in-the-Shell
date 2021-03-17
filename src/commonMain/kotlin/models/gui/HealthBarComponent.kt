@@ -13,11 +13,8 @@ open class HealthBarComponent(private val givenEntity: PlayerEntity, private val
     var healthBar: RoundRect = roundRect(givenEntity.getHealth(), 20.0, 3.0, 3.0, color, Colors.BLACK, 1.0) {
         anchor(Anchor.MIDDLE_CENTER)
     }
-    var stretchedHealthBar: RoundRect = roundRect(givenEntity.getMaxHealth(), 20.0, 3.0, 3.0, Colors.LIGHTGREY, Colors.BLACK, 1.0) {
-        anchor(Anchor.MIDDLE_CENTER)
-    }
+
     init {
-        addChild(stretchedHealthBar)
         addChild(healthBar)
         addFixedUpdater(10.timesPerSecond) {
             updateHealthBar()
@@ -25,9 +22,8 @@ open class HealthBarComponent(private val givenEntity: PlayerEntity, private val
     }
 
     private fun updateHealthBar() {
-        stretchedHealthBar = roundRect(givenEntity.getMaxHealth(), 20.0, 3.0, 3.0, Colors.LIGHTGREY, Colors.BLACK, 1.0) {
-            anchor(Anchor.MIDDLE_CENTER)
-        }
+        this.removeChildren()
+
         healthBar = roundRect(givenEntity.getHealth(), 20.0, 3.0, 3.0, color, Colors.BLACK, 1.0) {
             anchor(Anchor.MIDDLE_CENTER)
         }
