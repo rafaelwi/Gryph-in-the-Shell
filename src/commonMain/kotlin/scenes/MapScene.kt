@@ -5,6 +5,7 @@ import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
+import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.file.std.resourcesVfs
@@ -15,6 +16,8 @@ import map.GameMapFactory
 class MapScene : Scene() {
     val deviceWidth : Int = MainModule.size.width
     val deviceHeight : Int = MainModule.size.height
+
+    val SETTINGS_ICON = resourcesVfs["map\\settings_menu.png"]
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
@@ -27,12 +30,12 @@ class MapScene : Scene() {
         }
 
         // Settings button
-        solidRect(100, 100, Colors.SILVER) {
+        image(SETTINGS_ICON.readBitmap()) {
             anchor(Anchor.TOP_RIGHT)
             position(deviceWidth, 0)
             mouse {
                 over { tint = Colors.SLATEGRAY }
-                out { tint = Colors.SILVER }
+                out { tint = Colors.WHITE } // removes tint
                 onClick { sceneContainer.changeTo(SettingsScene::class) }
             }
         }
