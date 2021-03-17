@@ -24,7 +24,7 @@ class GameOverMenu(private val levelManager: LevelManager): Container() {
             }
 
             onClick {
-                levelManager.sceneContainer.changeTo<MapScene>()
+                levelManager.sceneContainer?.changeTo(MapScene::class)
             }
         }
     }
