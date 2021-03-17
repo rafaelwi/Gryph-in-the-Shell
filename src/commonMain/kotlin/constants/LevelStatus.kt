@@ -1,6 +1,6 @@
 package constants
 
-enum class BattleStatus {
+enum class LevelStatus {
     NOT_STARTED,
     ON,
     FINISHED,
