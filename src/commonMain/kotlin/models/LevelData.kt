@@ -4,7 +4,8 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.klogger.Console
-import com.soywiz.korge.input.onClick
+import com.soywiz.korge.input.mouse
+import com.soywiz.korge.input.onSwipe
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
@@ -15,6 +16,7 @@ import models.entities.Player
 import models.gui.GameOverMenu
 import models.gui.LevelBackground
 import models.gui.PlayerGui
+import models.gui.SwipeComponent
 
 class LevelData(val levelName: String,
                 val score: TimeSpan?,
@@ -32,6 +34,7 @@ class LevelData(val levelName: String,
         initStage()
         initGui()
         initEnemy()
+        initGameMechanics()
         initGameOverMenu()
 
         addFixedUpdater(10.timesPerSecond) {
@@ -53,9 +56,49 @@ class LevelData(val levelName: String,
         enemySprite.xy(MainModule.size.width / 2.0, MainModule.size.height / 2.0)
         enemySprite.anchor(Anchor.MIDDLE_CENTER)
         this.startAnimation()
+    }
 
-        enemySprite.onClick {
-            currentEnemy.reduceHealth(10)
+    fun initGameMechanics() {
+        var swipeHit = false
+        var inDrag = false
+        var inDown = false
+        var swipeGraphic = SwipeComponent(this.mouse)
+
+        this.addChild(swipeGraphic)
+
+
+        this.onSwipe {
+            Console.log(it.dx)
+            Console.log(it.dy)
+        }
+
+        this.mouse {
+            onDown {
+                swipeHit = false
+                inDown = true;
+                if (enemySprite.hitTest(it.currentPosStage) != null) currentEnemy.reduceHealth(1.0)
+                swipeGraphic.setSwipe(true)
+            }
+            onMoveAnywhere {
+                if (inDown) {
+                    inDrag = true
+                    if (enemySprite.hitTest(it.currentPosStage) != null) swipeHit = true
+                }
+            }
+            onUpAnywhere {
+                if (inDrag && inDown) {
+                    if (swipeHit) {
+                        Console.log(swipeHit)
+                        //Reduce enemy health by scaled damage
+                        currentEnemy.reduceHealth(1.0)
+                    }
+                }
+                swipeHit = false
+                inDrag = false
+                inDown = false
+                swipeGraphic.setSwipe(false)
+                swipeGraphic.clearSwipe()
+            }
         }
     }
 
@@ -65,8 +108,7 @@ class LevelData(val levelName: String,
 
     /** Game Status Updater */
     private fun checkGameStatus(dt: TimeSpan?) {
-        if ((currentPlayer.getHealth() == 0.0 || currentEnemy.getHealth() == 0.0) && levelManager.isOngoing)  {
-            Console.log("hit");
+        if ((currentPlayer.getHealth() <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager.isOngoing)  {
             levelManager.finish()
             this.addChild(gameOverMenu)
         }
@@ -88,7 +130,7 @@ class LevelData(val levelName: String,
 
     /** Enemy Sprite */
     private suspend fun buildEnemySprite(): Sprite {
-        val enemySpriteMap = resourcesVfs[currentEnemy.spriteFile].readBitmap()
+        val enemySpriteMap = resourcesVfs[currentEnemy.getSpriteFileLoc()].readBitmap()
         val enemyInitialAnim = SpriteAnimation(
                 spriteMap = enemySpriteMap,
                 spriteWidth = 41,

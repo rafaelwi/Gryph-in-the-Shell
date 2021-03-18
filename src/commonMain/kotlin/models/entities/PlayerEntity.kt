@@ -23,7 +23,11 @@ open class PlayerEntity(name: String,
         return maxHealth
     }
 
-    fun reduceHealth(damage: Int) {
+    fun setHealth(newHealth: Double) {
+        currentHealth = newHealth
+    }
+
+    fun reduceHealth(damage: Double) {
         if (currentHealth > 0) currentHealth -= damage
     }
 
