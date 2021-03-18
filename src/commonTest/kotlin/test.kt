@@ -16,6 +16,8 @@ import models.entities.Player
 import models.entities.PlayerEntity
 import models.gui.LevelBackground
 import kotlin.test.*
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 class MyTest : ViewsForTesting() {
 	@Test
@@ -69,17 +71,24 @@ class MyTest : ViewsForTesting() {
 
 	@Test
 	fun testPlacemarker() {
-		val pm = Placemarker(1, 100, 200, levelData = null)
+		val pm = Placemarker(1, 100, 200)
 		println(pm.toString())
 	}
 
 	@Test
 	fun testGameMap() {
 		val m = GameMap(1, null, listOf(
-				Placemarker(1, 100, 100, levelData = null),
-				Placemarker(2, 200, 200, levelData = null),
-				Placemarker(3, 300, 300, levelData = null)
+				Placemarker(1, 100, 100),
+				Placemarker(2, 200, 200),
+				Placemarker(3, 300, 300)
 		))
 		println(m.toString())
+	}
+
+	@Test
+	fun testJson() {
+		val p = Placemarker(1, 100, 200)
+		val pJson= Json.encodeToString(p)
+		println(pJson)
 	}
 }

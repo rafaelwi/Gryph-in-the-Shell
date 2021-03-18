@@ -1,5 +1,6 @@
 plugins {
 	id("com.soywiz.korge") version "2.0.7.1"
+	kotlin("plugin.serialization") version "1.4.30"
 	application
 }
 
@@ -10,12 +11,15 @@ repositories {
 }
 
 dependencies {
-	implementation("com.beust:klaxon:5.5") // doesn't work
+
 }
 
 korge {
 	id = "cis4030.gis.gis"
 	name = "Gryph in the Shell"
+
+	// Add project dependencies below
+	dependencyMulti("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
 
 	// To enable all targets at once: targetAll()
 	// To enable targets based on properties/environment variables: targetDefault()
