@@ -1,4 +1,4 @@
-package models.gui
+package models.components
 
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.input.MouseEvents

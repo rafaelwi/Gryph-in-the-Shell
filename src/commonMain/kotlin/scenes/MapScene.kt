@@ -2,10 +2,8 @@ package scenes
 
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.scene.Scene
-import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
-import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.file.std.resourcesVfs
@@ -58,7 +56,7 @@ class MapScene : Scene() {
                     over { tint = Colors.ORANGERED }
                     out { tint = Colors.ORANGE }
                     // TODO: We need to pass the placemarker's BattleStage data into the onClick (see injectors?)
-                    onClick { sceneContainer.changeTo(BattleScene::class) }
+                    onClick { sceneContainer.changeTo(LevelScene::class) }
                 }
             }
         }

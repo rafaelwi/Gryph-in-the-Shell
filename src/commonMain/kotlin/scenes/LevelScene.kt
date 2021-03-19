@@ -3,19 +3,21 @@ package scenes
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korim.text.TextAlignment
-import factories.LevelManager
+import models.LevelManager
 import factories.LevelDataFactory
 
-class BattleScene : Scene() {
+class LevelScene : Scene() {
+    val deviceWidth : Int = MainModule.size.width
+    val deviceHeight : Int = MainModule.size.height
     // Entrypoint
     override suspend fun Container.sceneInit() {
         val game = LevelManager(this, sceneContainer)
-        val battleStage = LevelDataFactory.createTestLevel(game)
-        addChild(battleStage)
-        battleStage.init()
+        val level = LevelDataFactory.createTestLevel(game)
+        addChild(level)
+        level.init()
 
         text("Battle Scene", textSize = 100.0, alignment = TextAlignment.TOP_CENTER) {
-            position(MainModule.size.width / 2.0, 0.0)
+            position(deviceWidth / 2.0, 0.0)
         }
     }
 }

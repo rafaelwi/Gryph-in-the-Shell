@@ -2,17 +2,50 @@ package models.entities
 
 import models.entities.PlayerEntity
 
-class Enemy(name: String, maxHealth: Double, spriteFileLoc: String): PlayerEntity(name, maxHealth) {
+class Enemy(name: String, maxHealth: Double,
+            private var spriteFileLoc: String,
+            private var spriteWidth: Int,
+            private var spriteHeight: Int,
+            private var spriteMapCols: Int,
+            private var spriteMapRows: Int ): PlayerEntity(name, maxHealth) {
 
-    private var spriteFileLoc = spriteFileLoc
-
-    fun setSpriteFileLoc (newSpriteFileLoc: String) {
+    fun setSpriteFileLoc(newSpriteFileLoc: String) {
         spriteFileLoc = newSpriteFileLoc
     }
 
-    fun getSpriteFileLoc (): String {
+    fun getSpriteFileLoc(): String {
         return spriteFileLoc
     }
 
+    fun setSpriteWidth(newSpriteWidth: Int) {
+        spriteWidth = newSpriteWidth
+    }
 
+    fun getSpriteWidth(): Int {
+        return spriteWidth
+    }
+
+    fun setSpriteHeight(newSpriteHeight: Int) {
+        spriteHeight = newSpriteHeight
+    }
+
+    fun getSpriteHeight(): Int {
+        return spriteHeight
+    }
+
+    fun setSpriteMapCols(newSpriteMapCols: Int) {
+        spriteMapCols = newSpriteMapCols
+    }
+
+    fun getSpriteMapCols(): Int {
+        return spriteMapCols
+    }
+
+    fun setSpriteMapRows(newSpriteMapRows: Int) {
+        spriteMapRows = newSpriteMapRows
+    }
+
+    fun getSpriteMapRows(): Int {
+        return spriteMapRows
+    }
 }

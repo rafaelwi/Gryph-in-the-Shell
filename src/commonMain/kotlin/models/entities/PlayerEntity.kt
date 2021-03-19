@@ -1,10 +1,8 @@
 package models.entities
 
-open class PlayerEntity(name: String,
-                        maxHealth: Double) {
+open class PlayerEntity(private var name: String,
+                        private var maxHealth: Double) {
 
-    private var name = name
-    private var maxHealth = maxHealth
     private var currentHealth = maxHealth;
 
     fun setName(newName: String) {
