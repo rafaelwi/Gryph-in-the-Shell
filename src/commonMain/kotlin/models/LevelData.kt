@@ -7,28 +7,41 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import models.entities.Enemy
 import models.entities.Player
 import models.components.GameOverMenu
 import models.gui.LevelBackground
 import models.gui.PlayerGui
 
+@Serializable
 class LevelData(private val levelName: String,
-                private val score: TimeSpan?,
-                private val levelManager: LevelManager,
+                @Transient
+                private val score: TimeSpan? = null,
+                @Transient
+                private val levelManager : LevelManager? = null,
                 private val currentEnemy: Enemy,
-                private val currentPlayer: Player,
+                @Transient
+                private val currentPlayer: Player? = null,
                 private val levelBackground: LevelBackground?): Container() {
 
-    private val deviceWidth : Int = MainModule.size.width
-    private val deviceHeight : Int = MainModule.size.height
+    @Transient
+    private val deviceWidth: Int = MainModule.size.width
+    @Transient
+    private val deviceHeight: Int = MainModule.size.height
+    @Transient
     private lateinit var enemySprite: Sprite
+    @Transient
     private lateinit var playerGui: Container
+    @Transient
     private lateinit var levelMechanics: LevelMechanics
+    @Transient
     private lateinit var gameOverMenu: Container
 
     suspend fun init() {
-        levelManager.start()
+        levelManager?.start()
         initStage()
         initGui()
         initEnemy()
@@ -68,12 +81,12 @@ class LevelData(private val levelName: String,
         return LevelMechanics(levelData, enemySprite, currentEnemy)
     }
 
-    private fun buildGameOverMenu(levelManager: LevelManager): Container {
+    private fun buildGameOverMenu(levelManager: LevelManager?): Container {
         return GameOverMenu(levelManager).position(deviceWidth / 2.0, deviceHeight / 3.5).scale(2.0, 2.0)
     }
 
     /** GUI */
-    private fun buildGui(currentPlayer: Player, currentEnemy: Enemy): Container {
+    private fun buildGui(currentPlayer: Player?, currentEnemy: Enemy): Container {
         return PlayerGui(currentPlayer, currentEnemy)
     }
 
@@ -92,8 +105,8 @@ class LevelData(private val levelName: String,
 
     /** Game Status Updater */
     private fun checkGameStatus(dt: TimeSpan?) {
-        if ((currentPlayer.getHealth() <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager.isOngoing)  {
-            levelManager.finish()
+        if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.isOngoing == true)  {
+            levelManager?.finish()
             this.addChild(gameOverMenu)
         }
     }

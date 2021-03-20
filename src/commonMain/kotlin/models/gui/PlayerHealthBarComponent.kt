@@ -3,11 +3,11 @@ package models.gui
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.RGBA
-import models.entities.PlayerEntity
+import models.entities.Player
 
-class PlayerHealthBarComponent(private val givenEntity: PlayerEntity, color: RGBA): HealthBarComponent(givenEntity, color) {
+class PlayerHealthBarComponent(private val givenEntity: Player?, color: RGBA): HealthBarComponent(givenEntity, color) {
 
-    private var healthText: Text = text(givenEntity.getHealth().toString()).apply {
+    private var healthText: Text = text(givenEntity?.getHealth().toString()).apply {
         centerBetween(0.0, 0.0, 0.0, 0.0)
     }
 
@@ -19,7 +19,7 @@ class PlayerHealthBarComponent(private val givenEntity: PlayerEntity, color: RGB
     }
 
     private fun updateHealthText() {
-        healthText = text(givenEntity.getHealth().toString()).apply {
+        healthText = text(givenEntity?.getHealth().toString()).apply {
             centerBetween(0.0, 0.0, 0.0, 0.0)
         }
     }

@@ -8,7 +8,7 @@ import com.soywiz.korma.geom.Anchor
 import models.LevelManager
 import scenes.MapScene
 
-class GameOverMenu(private val levelManager: LevelManager): Container() {
+class GameOverMenu(private val levelManager: LevelManager?): Container() {
 
     private var backGround: SolidRect = solidRect(300, 150, Colors.WHITE) {
         anchor(Anchor.MIDDLE_CENTER)
@@ -32,7 +32,7 @@ class GameOverMenu(private val levelManager: LevelManager): Container() {
             }
 
             onClick {
-                levelManager.sceneContainer?.changeTo(MapScene::class)
+                levelManager?.sceneContainer?.changeTo(MapScene::class)
             }
         }
     }

@@ -1,5 +1,8 @@
 package models.entities
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 open class PlayerEntity(private var name: String,
                         private var maxHealth: Double) {
 
