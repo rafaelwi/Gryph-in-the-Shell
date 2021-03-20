@@ -2,11 +2,10 @@ package models.entities
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.encoding.encodeStructure
 import models.entities.PlayerEntity
 
 @Serializable(with = Enemy.EnemySerializer::class)
@@ -17,19 +16,31 @@ class Enemy(name: String, maxHealth: Double,
             private var spriteMapCols: Int,
             private var spriteMapRows: Int ): PlayerEntity(name, maxHealth) {
 
+    // To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062
     object EnemySerializer : KSerializer<Enemy> {
-        override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Enemy", PrimitiveKind.STRING)
-
-        override fun serialize(encoder: Encoder, value: Enemy) {
-            encoder.encodeString(value.getName())
-            encoder.encodeDouble(value.getHealth())
-            encoder.encodeString(value.getSpriteFileLoc())
-            encoder.encodeInt(value.getSpriteWidth())
-            encoder.encodeInt(value.getSpriteHeight())
-            encoder.encodeInt(value.getSpriteMapCols())
-            encoder.encodeInt(value.getSpriteMapRows())
+        override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Enemy") {
+            element<String>("name")
+            element<Double>("maxHealth")
+            element<String>("spriteFileLoc")
+            element<Int>("spriteWidth")
+            element<Int>("spriteHeight")
+            element<Int>("spriteMapCols")
+            element<Int>("spriteMapRows")
         }
 
+        override fun serialize(encoder: Encoder, value: Enemy) {
+            encoder.encodeStructure(descriptor) {
+                encodeStringElement(descriptor, 0, value.getName())
+                encodeDoubleElement(descriptor, 1, value.getHealth())
+                encodeStringElement(descriptor, 2, value.getSpriteFileLoc())
+                encodeIntElement(descriptor, 3, value.getSpriteWidth())
+                encodeIntElement(descriptor, 4, value.getSpriteHeight())
+                encodeIntElement(descriptor, 5, value.getSpriteMapCols())
+                encodeIntElement(descriptor, 6, value.getSpriteMapRows())
+            }
+        }
+
+        // TODO: Could be cleaned up (https://stackoverflow.com/a/65272372/5310062)
         override fun deserialize(decoder: Decoder): Enemy {
             val name = decoder.decodeString()
             val health = decoder.decodeDouble()
@@ -38,11 +49,8 @@ class Enemy(name: String, maxHealth: Double,
             val h = decoder.decodeInt()
             val c = decoder.decodeInt()
             val r = decoder.decodeInt()
-
             return Enemy(name, health, loc, w, h, c, r)
         }
-
-
     }
 
     fun setSpriteFileLoc(newSpriteFileLoc: String) {
