@@ -6,7 +6,7 @@ import com.soywiz.korim.color.RGBA
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.ScaleMode
 import com.soywiz.korma.geom.SizeInt
-import scenes.BattleScene
+import scenes.LevelScene
 import scenes.MapScene
 import scenes.SettingsScene
 import scenes.TitleScene
@@ -27,7 +27,7 @@ object MainModule : Module() {
     override val windowSize = SizeInt(360, 740)
 
     override suspend fun AsyncInjector.configure() {
-        mapPrototype { BattleScene() }
+        mapPrototype { LevelScene() }
         mapPrototype { MapScene() }
         mapPrototype { SettingsScene() }
         mapPrototype { TitleScene() }

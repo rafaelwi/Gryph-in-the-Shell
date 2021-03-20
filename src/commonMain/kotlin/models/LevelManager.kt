@@ -1,4 +1,4 @@
-package factories
+package models
 
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.Container
