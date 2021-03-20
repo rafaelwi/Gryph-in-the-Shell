@@ -16,6 +16,7 @@ import models.gui.LevelBackground
 import kotlin.test.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import models.LevelData
 
 class MyTest : ViewsForTesting() {
 	@Test
@@ -85,8 +86,19 @@ class MyTest : ViewsForTesting() {
 
 	@Test
 	fun testJson() {
+		/*
 		val p = Placemarker(1, 100, 200)
 		val pJson= Json.encodeToString(p)
 		println(pJson)
+		*/
+
+		val world = GameMap(1, "map\\grass.png",
+		listOf(Placemarker(1, 300, 300, false,
+				LevelData("First Level", TimeSpan(60000.0),
+						currentEnemy = Enemy("Leroy", 100.0, "ballbot\\spritesheet.png", 64, 64, 2, 2),
+						levelBackground = LevelBackground("First Level Background", "battle\\first_level.png")
+		))))
+		val pWorld = Json{prettyPrint = true}.encodeToString(world)
+		println(pWorld)
 	}
 }

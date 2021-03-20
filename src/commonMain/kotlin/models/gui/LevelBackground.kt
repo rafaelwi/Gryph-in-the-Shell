@@ -1,5 +1,8 @@
 package models.gui
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 class LevelBackground(val name: String, val spriteFile: String) {
 
 

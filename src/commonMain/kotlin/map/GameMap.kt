@@ -1,5 +1,8 @@
 package map
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 class GameMap (
         val world: Int,
         var backgroundPath: String?,
