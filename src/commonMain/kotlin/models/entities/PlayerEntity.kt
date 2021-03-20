@@ -1,24 +1,36 @@
 package models.entities
 
-open class PlayerEntity(private val name: String,
-                        private val maxHealth: Double) {
+open class PlayerEntity(private var name: String,
+                        private var maxHealth: Double) {
 
     private var currentHealth = maxHealth;
 
+    fun setName(newName: String) {
+        name = newName
+    }
+
     fun getName(): String {
         return name
+    }
+
+    fun setMaxHealth(newMaxHealth: Double) {
+        maxHealth = newMaxHealth
     }
 
     fun getMaxHealth(): Double {
         return maxHealth
     }
 
-    fun getHealth(): Double {
-        return currentHealth
+    fun setHealth(newHealth: Double) {
+        currentHealth = newHealth
     }
 
-    fun reduceHealth(damage: Int) {
+    fun reduceHealth(damage: Double) {
         if (currentHealth > 0) currentHealth -= damage
+    }
+
+    fun getHealth(): Double {
+        return currentHealth
     }
 
     override fun toString(): String {

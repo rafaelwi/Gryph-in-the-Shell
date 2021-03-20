@@ -24,6 +24,8 @@ open class HealthBarComponent(private val givenEntity: PlayerEntity, private val
     private fun updateHealthBar() {
         this.removeChildren()
 
+        if (givenEntity.getHealth() <= 0) givenEntity.setHealth(0.0)
+
         healthBar = roundRect(givenEntity.getHealth(), 20.0, 3.0, 3.0, color, Colors.BLACK, 1.0) {
             anchor(Anchor.MIDDLE_CENTER)
         }

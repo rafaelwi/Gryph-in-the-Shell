@@ -1,16 +1,14 @@
 import com.soywiz.klock.*
 import com.soywiz.korge.input.*
-import com.soywiz.korge.scene.sceneContainer
 import com.soywiz.korge.tests.*
 import com.soywiz.korge.tween.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
 import com.soywiz.korma.geom.*
 import factories.LevelDataFactory
-import factories.LevelManager
+import models.LevelManager
 import map.GameMap
 import map.Placemarker
-import models.LevelData
 import models.entities.Enemy
 import models.entities.Player
 import models.entities.PlayerEntity
@@ -40,7 +38,7 @@ class MyTest : ViewsForTesting() {
 		val testManager = LevelManager(testContainer, null)
 		val testScore = TimeSpan(0.0)
 		val testPlayer = Player("test_player", 1.0)
-		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile")
+		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0)
 		val testBackground = LevelBackground("test_level", "fileLocation/testBackgroundFile")
 
 		val testLevelData = LevelDataFactory.createLevel(testManager, testScore, testEnemy, testPlayer, testBackground)
@@ -59,7 +57,7 @@ class MyTest : ViewsForTesting() {
 	@Test
 	fun testPlayerEntity() {
 		val player = Player("test_player", 1.0)
-		val enemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile")
+		val enemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0)
 		val entity = PlayerEntity("naked_entity", 0.0)
 
 		println(player.toString())
