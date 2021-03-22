@@ -4,6 +4,7 @@ import com.soywiz.korge.tests.*
 import com.soywiz.korge.tween.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
+import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.*
 import factories.LevelDataFactory
 import models.LevelManager
@@ -16,6 +17,7 @@ import models.gui.LevelBackground
 import kotlin.test.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import map.GameMapFactory
 import models.LevelData
 
 class MyTest : ViewsForTesting() {
@@ -86,12 +88,6 @@ class MyTest : ViewsForTesting() {
 
 	@Test
 	fun testJson() {
-		/*
-		val p = Placemarker(1, 100, 200)
-		val pJson= Json.encodeToString(p)
-		println(pJson)
-		*/
-
 		val world = GameMap(1, "map\\grass.png",
 		listOf(Placemarker(1, 300, 300, false,
 				LevelData("First Level", TimeSpan(60000.0),
