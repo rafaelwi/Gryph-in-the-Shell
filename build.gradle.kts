@@ -10,15 +10,11 @@ repositories {
 	google()
 }
 
-dependencies {
-
-}
-
 korge {
 	id = "cis4030.gis.gis"
 	name = "Gryph in the Shell"
 
-	// Add project dependencies below
+	// Add project dependencies below and to `build/platforms/android/build.extra.gradle`
 	dependencyMulti("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
 
 	// To enable all targets at once: targetAll()

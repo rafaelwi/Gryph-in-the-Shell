@@ -1,3 +1,5 @@
+enableFeaturePreview("GRADLE_METADATA")
+
 pluginManagement {
     repositories {
         mavenLocal()
@@ -8,3 +10,4 @@ pluginManagement {
         jcenter()
     }
 }
+
