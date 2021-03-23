@@ -19,15 +19,12 @@ class MapScene : Scene() {
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
+        val a = GameMapFactory.readLevelData("leveldata\\world1.json")
+        println("DATA:  $a")
 
-        val world = GameMapFactory.createTestGameMap(null)
-        drawGameMap(world, this)
+        GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
 
-        text("Map Scene", textSize = 100.0, alignment = TextAlignment.TOP_CENTER, color = Colors.BLACK) {
-            position(deviceWidth / 2.0, 0.0)
-        }
-
-        // Settings button
+        // Settings button, can be added to the GameMapFactory
         image(SETTINGS_ICON.readBitmap()) {
             anchor(Anchor.TOP_RIGHT)
             position(deviceWidth, 0)

@@ -4,8 +4,8 @@
   "levels": [
     {
       "level": 1,
-      "xLocation": 300,
-      "yLocation": 300,
+      "xLocation": -1,
+      "yLocation": -1,
       "levelData": {
         "levelName": "First Level",
         "currentEnemy": {
