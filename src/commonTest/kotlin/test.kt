@@ -97,4 +97,16 @@ class MyTest : ViewsForTesting() {
 		val pWorld = Json{prettyPrint = true}.encodeToString(world)
 		println(pWorld)
 	}
+
+	@Test
+	fun testEnemySerialization() {
+		val enemy = Enemy("Leroy", 100.0, "ballbot\\spritesheet.png", 64, 64, 2, 2)
+		var sEnemy = Json.encodeToString(enemy)
+		sEnemy = sEnemy.substring(1, sEnemy.length - 1)
+		println(sEnemy)
+		val jEnemy = Json.decodeFromString<Enemy>("""
+		{"name" : "Leroy","maxHealth":100.0,"spriteFileLoc":"ballbot\\spritesheet.png","spriteWidth":64,"spriteHeight":64,"spriteMapCols":2,"spriteMapRows":2}
+			""".trimIndent())
+		println(jEnemy.toString())
+	}
 }

@@ -8,8 +8,12 @@ import com.soywiz.korim.format.readBitmap
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import map.GameMap
 import map.GameMapFactory
+import models.entities.Enemy
 
 class MapScene : Scene() {
     val deviceWidth : Int = MainModule.size.width
@@ -19,10 +23,9 @@ class MapScene : Scene() {
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
-        val a = GameMapFactory.readLevelData("leveldata\\world1.json")
-        println("DATA:  $a")
 
-        GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
+
+        //GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
 
         // Settings button, can be added to the GameMapFactory
         image(SETTINGS_ICON.readBitmap()) {
