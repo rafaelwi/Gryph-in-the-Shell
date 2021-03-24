@@ -25,7 +25,7 @@ class MapScene : Scene() {
     override suspend fun Container.sceneInit() {
 
 
-        //GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
+        GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
 
         // Settings button, can be added to the GameMapFactory
         image(SETTINGS_ICON.readBitmap()) {
