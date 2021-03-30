@@ -30,13 +30,13 @@ class LevelMechanics(private var levelData: LevelData,
 
         levelData.mouse {
             onDown {
+                swipeGraphic.setSwipe(true)
                 swipeHit = false
                 dragPoint = it.currentPosStage
                 if (enemySprite.hitTest(dragPoint!!) != null) currentEnemy.reduceHealth(1.0)
             }
             onMoveAnywhere {
                 if (dragPoint != null) {
-                    swipeGraphic.setSwipe(true)
                     inDrag = true
                     if (enemySprite.hitTest(dragPoint!!) != null) swipeHit = true
                 }
