@@ -64,13 +64,14 @@ class LevelData(private val levelName: String,
 
     suspend fun initEnemy() {
         enemySprite = this.buildEnemySprite()
-        enemySprite.xy(deviceWidth / 2.0, deviceHeight / 2.0)
+        enemySprite.xy(deviceWidth * 0.5, deviceHeight * 0.5)
         enemySprite.anchor(Anchor.MIDDLE_CENTER)
         this.startAnimation(enemySprite)
     }
 
-    fun initMechanics() {
+    suspend fun initMechanics() {
         levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy)
+        levelMechanics.init()
     }
 
     fun initGameOverMenu() {
@@ -82,7 +83,7 @@ class LevelData(private val levelName: String,
     }
 
     private fun buildGameOverMenu(levelManager: LevelManager?): Container {
-        return GameOverMenu(levelManager).position(deviceWidth / 2.0, deviceHeight / 3.5).scale(2.0, 2.0)
+        return GameOverMenu(levelManager).position(deviceWidth * 0.5, deviceHeight * 0.3).scale(2.0, 2.0)
     }
 
     /** GUI */

@@ -1,8 +1,11 @@
 package models
 
 import com.soywiz.korge.input.mouse
+import com.soywiz.korge.particle.ParticleEmitter
+import com.soywiz.korge.particle.readParticleEmitter
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
+import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Point
 import models.entities.Enemy
 import models.components.SwipeComponent
@@ -11,25 +14,26 @@ class LevelMechanics(private var levelData: LevelData,
                      private var enemySprite: Sprite,
                      private var currentEnemy: Enemy) {
 
-    init {
+    suspend fun init() {
         initSwipeMechanics()
     }
 
-    private fun initSwipeMechanics() {
+    private suspend fun initSwipeMechanics() {
         var swipeHit = false
         var inDrag = false
         var dragPoint: Point? = null
         var swipeGraphic = SwipeComponent(levelData.mouse)
         var totalDamage = 0.0
 
+        swipeGraphic.init()
         levelData.addChild(swipeGraphic)
 
         levelData.mouse {
             onDown {
+                swipeGraphic.setSwipe(true)
                 swipeHit = false
                 dragPoint = it.currentPosStage
                 if (enemySprite.hitTest(dragPoint!!) != null) currentEnemy.reduceHealth(1.0)
-                swipeGraphic.setSwipe(true)
             }
             onMoveAnywhere {
                 if (dragPoint != null) {
@@ -51,7 +55,7 @@ class LevelMechanics(private var levelData: LevelData,
                 swipeHit = false
                 inDrag = false
                 swipeGraphic.setSwipe(false)
-                swipeGraphic.clearSwipe()
+                swipeGraphic.resetSwipe()
             }
         }
     }
