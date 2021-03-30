@@ -2,12 +2,10 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
-import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import models.entities.Enemy
@@ -48,9 +46,11 @@ class LevelData(private val levelName: String,
         initMechanics()
         initGameOverMenu()
 
-        addFixedUpdater(10.timesPerSecond) {
+        addUpdater {
             this.checkGameStatus(score)
         }
+
+        this.checkEnemyStatus(null)
     }
 
     fun initGui() {
@@ -70,7 +70,7 @@ class LevelData(private val levelName: String,
     }
 
     suspend fun initMechanics() {
-        levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy)
+        levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy, currentPlayer)
         levelMechanics.init()
     }
 
@@ -78,8 +78,8 @@ class LevelData(private val levelName: String,
         gameOverMenu = this.buildGameOverMenu(levelManager)
     }
 
-    private fun buildGameMechanics(levelData: LevelData, enemySprite: Sprite, currentEnemy: Enemy): LevelMechanics {
-        return LevelMechanics(levelData, enemySprite, currentEnemy)
+    private fun buildGameMechanics(levelData: LevelData, enemySprite: Sprite, currentEnemy: Enemy, currentPlayer: Player?): LevelMechanics {
+        return LevelMechanics(levelData, enemySprite, currentEnemy, currentPlayer)
     }
 
     private fun buildGameOverMenu(levelManager: LevelManager?): Container {
@@ -110,6 +110,10 @@ class LevelData(private val levelName: String,
             levelManager?.finish()
             this.addChild(gameOverMenu)
         }
+    }
+
+    private suspend fun checkEnemyStatus(dt: TimeSpan?) {
+        levelMechanics.checkInitiateAttack(dt);
     }
 
     private fun startAnimation(sprite: Sprite) {

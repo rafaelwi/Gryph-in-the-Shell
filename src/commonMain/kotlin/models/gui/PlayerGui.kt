@@ -24,4 +24,8 @@ class PlayerGui(private val currentPlayer: Player?, private val currentEnemy: En
         this.addChild(enemyHealthBar)
     }
 
+    private fun buildHitScreen(currentPlayer: Player?) {
+
+    }
+
 }

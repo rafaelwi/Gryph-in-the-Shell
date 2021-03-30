@@ -1,21 +1,34 @@
 package models
 
+import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
 import com.soywiz.korge.input.mouse
-import com.soywiz.korge.particle.ParticleEmitter
-import com.soywiz.korge.particle.readParticleEmitter
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
-import com.soywiz.korio.file.std.resourcesVfs
+import com.soywiz.korio.async.delay
+import com.soywiz.korio.async.launch
 import com.soywiz.korma.geom.Point
+import kotlinx.coroutines.CoroutineScope
 import models.entities.Enemy
 import models.components.SwipeComponent
+import models.entities.Player
+import kotlin.coroutines.coroutineContext
 
 class LevelMechanics(private var levelData: LevelData,
                      private var enemySprite: Sprite,
-                     private var currentEnemy: Enemy) {
+                     private var currentEnemy: Enemy,
+                     private var currentPlayer: Player?) {
+
+    private var attackCountdown = currentEnemy.getAttackPattern().getTimeUntilInitiate()
+    private var cycleCountdown = 0.milliseconds
 
     suspend fun init() {
         initSwipeMechanics()
+        initAttackPattern()
+    }
+
+    private suspend fun initAttackPattern() {
+
     }
 
     private suspend fun initSwipeMechanics() {
@@ -58,6 +71,40 @@ class LevelMechanics(private var levelData: LevelData,
                 swipeGraphic.resetSwipe()
             }
         }
+    }
+
+    suspend fun checkInitiateAttack(dt: TimeSpan?) {
+
+
+        /**
+         *         if (attackCountdown > 0.milliseconds) {
+        attackCountdown.minus(1.milliseconds)
+        Console.log(attackCountdown)
+        }
+        else {
+        Console.log("initiating attack")
+        if (currentEnemy.getAttackPattern().getCurrentCycles() > 0 && cycleCountdown <= 0.milliseconds) {
+        Console.log("attacking")
+        currentPlayer?.reduceHealth(currentEnemy.getAttackPattern().getDamage())
+        currentEnemy.getAttackPattern().decrementCycle()
+        cycleCountdown = currentEnemy.getAttackPattern().getTimeBetweenCycles()
+        } else {
+        Console.log("countingdown until next cycle")
+        cycleCountdown.minus(1.milliseconds)
+        }
+        }
+         */
+        /**
+         *
+        CoroutineScope(coroutineContext).launch {
+        delay(currentEnemy.getAttackPattern().getTimeUntilInitiate())
+        while (currentEnemy.getAttackPattern().getCurrentCycles() > 0) {
+        currentPlayer?.reduceHealth(currentEnemy.getAttackPattern().getDamage())
+        currentEnemy.getAttackPattern().decrementCycle()
+        delay(currentEnemy.getAttackPattern().getTimeBetweenCycles())
+        }
+        }
+         */
     }
 
 }
