@@ -17,8 +17,8 @@ class PlayerGui(private val currentPlayer: Player?, private val currentEnemy: En
     }
 
     private fun buildHealthGui(playerHealthBar: Container, enemyHealthBar: Container) {
-        enemyHealthBar.position(MainModule.size.width / 2.0, MainModule.size.height / 8.0).scale(8.0, 4.0)
-        playerHealthBar.position(MainModule.size.width / 2.0, MainModule.size.height / 1.1).scale(8.0, 4.0)
+        enemyHealthBar.position(MainModule.size.width * 0.5, MainModule.size.height * 0.125).scale(8.0, 4.0)
+        playerHealthBar.position(MainModule.size.width * 0.5, MainModule.size.height * 0.9).scale(8.0, 4.0)
 
         this.addChild(playerHealthBar)
         this.addChild(enemyHealthBar)
