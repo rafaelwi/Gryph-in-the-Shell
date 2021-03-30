@@ -1,5 +1,6 @@
 package models
 
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klogger.Logger
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.Container
@@ -33,8 +34,12 @@ class LevelManager(private val container : Container, val sceneContainer: SceneC
         return isOngoing
     }
 
-    fun getScore(): Double {
+    fun getCurrTime(): TimeSpan {
         return levelTimer.getTimeElapsed()
+    }
+
+    fun getScore(): Double {
+        return levelTimer.getTimeCompleted()
     }
 
     override fun toString(): String {

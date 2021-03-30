@@ -1,6 +1,7 @@
 package models
 
 import com.soywiz.klock.PerformanceCounter
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 
 class LevelTimer {
@@ -17,12 +18,16 @@ class LevelTimer {
         timerStart = PerformanceCounter.milliseconds
     }
 
+    fun getTimeElapsed(): TimeSpan {
+        return (PerformanceCounter.milliseconds - timerStart).milliseconds
+    }
+
     fun finishTimer() {
         timerEnd = PerformanceCounter.milliseconds
     }
 
     //Returns TimeSpan in double form as seconds
-    fun getTimeElapsed(): Double {
+    fun getTimeCompleted(): Double {
         return (timerEnd - timerStart).milliseconds.seconds
     }
 

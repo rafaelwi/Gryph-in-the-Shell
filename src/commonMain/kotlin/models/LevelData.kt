@@ -48,9 +48,8 @@ class LevelData(private val levelName: String,
 
         addUpdater {
             this.checkGameStatus(score)
+            this.checkEnemyStatus(score)
         }
-
-        this.checkEnemyStatus(null)
     }
 
     fun initGui() {
@@ -70,7 +69,7 @@ class LevelData(private val levelName: String,
     }
 
     suspend fun initMechanics() {
-        levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy, currentPlayer)
+        levelMechanics = this.buildGameMechanics(this, levelManager, enemySprite, currentEnemy, currentPlayer)
         levelMechanics.init()
     }
 
@@ -78,8 +77,8 @@ class LevelData(private val levelName: String,
         gameOverMenu = this.buildGameOverMenu(levelManager)
     }
 
-    private fun buildGameMechanics(levelData: LevelData, enemySprite: Sprite, currentEnemy: Enemy, currentPlayer: Player?): LevelMechanics {
-        return LevelMechanics(levelData, enemySprite, currentEnemy, currentPlayer)
+    private fun buildGameMechanics(levelData: LevelData, levelManager: LevelManager?, enemySprite: Sprite, currentEnemy: Enemy, currentPlayer: Player?): LevelMechanics {
+        return LevelMechanics(levelData, levelManager, enemySprite, currentEnemy, currentPlayer)
     }
 
     private fun buildGameOverMenu(levelManager: LevelManager?): Container {
@@ -113,7 +112,7 @@ class LevelData(private val levelName: String,
         }
     }
 
-    private suspend fun checkEnemyStatus(dt: TimeSpan?) {
+    private fun checkEnemyStatus(dt: TimeSpan?) {
         levelMechanics.checkInitiateAttack(dt);
     }
 

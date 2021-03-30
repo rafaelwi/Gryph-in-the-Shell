@@ -1,5 +1,6 @@
 package models.entities
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -15,6 +16,8 @@ class Enemy(name: String, maxHealth: Double,
             private var spriteHeight: Int,
             private var spriteMapCols: Int,
             private var spriteMapRows: Int): PlayerEntity(name, maxHealth) {
+
+    private var basicAttackPattern = AttackPattern(10.0, 5.seconds, 3, 2.seconds)
 
     // To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062
     object EnemySerializer : KSerializer<Enemy> {
@@ -94,6 +97,6 @@ class Enemy(name: String, maxHealth: Double,
     }
 
     fun getAttackPattern(): AttackPattern {
-        return AttackPattern(10.0, 5.seconds, 3, 1.seconds)
+        return basicAttackPattern
     }
 }
