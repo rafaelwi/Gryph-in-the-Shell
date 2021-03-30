@@ -1,7 +1,7 @@
 package models
 
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.milliseconds
+import com.soywiz.klock.*
+import com.soywiz.klogger.Console
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
@@ -106,8 +106,9 @@ class LevelData(private val levelName: String,
 
     /** Game Status Updater */
     private fun checkGameStatus(dt: TimeSpan?) {
-        if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.isOngoing == true)  {
+        if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
+            Console.log(levelManager.getScore())
             this.addChild(gameOverMenu)
         }
     }
