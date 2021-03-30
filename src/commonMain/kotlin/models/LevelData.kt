@@ -53,7 +53,7 @@ class LevelData(private val levelName: String,
     }
 
     fun initGui() {
-        playerGui = this.buildGui(currentPlayer, currentEnemy)
+        playerGui = this.buildGui(levelManager, currentPlayer, currentEnemy)
         this.addChild(playerGui)
     }
 
@@ -86,8 +86,8 @@ class LevelData(private val levelName: String,
     }
 
     /** GUI */
-    private fun buildGui(currentPlayer: Player?, currentEnemy: Enemy): Container {
-        return PlayerGui(currentPlayer, currentEnemy)
+    private fun buildGui(levelManager: LevelManager?, currentPlayer: Player?, currentEnemy: Enemy): Container {
+        return PlayerGui(levelManager, currentPlayer, currentEnemy)
     }
 
     /** Enemy Sprite */
@@ -115,6 +115,7 @@ class LevelData(private val levelName: String,
     private fun checkEnemyStatus(dt: TimeSpan?) {
         levelMechanics.checkInitiateAttack(dt);
     }
+
 
     private fun startAnimation(sprite: Sprite) {
         sprite.playAnimationLooped(spriteDisplayTime = 150.milliseconds)

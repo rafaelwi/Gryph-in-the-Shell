@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import models.entities.Enemy
 import models.components.SwipeComponent
 import models.entities.Player
-import kotlin.coroutines.coroutineContext
 
 class LevelMechanics(private var levelData: LevelData,
                      private var levelManager: LevelManager?,
@@ -79,8 +78,9 @@ class LevelMechanics(private var levelData: LevelData,
 
         if (currTime != null && levelManager?.getIsOngoing() == true) {
             if (currTime >= currentEnemy.getAttackPattern().getTimeUntilInitiate()) {
-                if (currentEnemy.getAttackPattern().getCurrentCycles() >= 0 && currTime >= nextCycleTimestamp) {
+                if (currentEnemy.getAttackPattern().getCurrentCycles() > 0 && currTime >= nextCycleTimestamp) {
                     Console.log("attacking on cycle ", currentEnemy.getAttackPattern().getCurrentCycles())
+                    levelManager!!.triggerIsHit()
                     currentPlayer?.reduceHealth(currentEnemy.getAttackPattern().getDamage())
                     currentEnemy.getAttackPattern().decrementCycle()
                     nextCycleTimestamp = currTime + currentEnemy.getAttackPattern().getTimeBetweenCycles()
