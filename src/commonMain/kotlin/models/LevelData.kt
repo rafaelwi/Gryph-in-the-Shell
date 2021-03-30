@@ -69,8 +69,9 @@ class LevelData(private val levelName: String,
         this.startAnimation(enemySprite)
     }
 
-    fun initMechanics() {
+    suspend fun initMechanics() {
         levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy)
+        levelMechanics.init()
     }
 
     fun initGameOverMenu() {

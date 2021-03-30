@@ -2,17 +2,23 @@ package models.components
 
 import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.input.MouseEvents
+import com.soywiz.korge.particle.*
 import com.soywiz.korge.view.*
-import com.soywiz.korim.color.Colors
-import com.soywiz.korma.geom.Anchor
+import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Point
 
 class SwipeComponent(private val mouse: MouseEvents): Container() {
 
+    private lateinit var particleEmitterView: ParticleEmitterView
+    private lateinit var particleEmitter: ParticleEmitter
+    private lateinit var particleEmitterPos: Point
     var inSwipe = false
 
-    init {
-        addFixedUpdater(50.timesPerSecond) {
+    suspend fun init() {
+        particleEmitterPos = Point(-10.0, -10.0)
+        particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
+        particleEmitterView = particleEmitter(particleEmitter, particleEmitterPos)
+        addFixedUpdater(60.timesPerSecond) {
             if (inSwipe) updateSwipe(mouse.currentPosStage)
         }
     }
@@ -22,14 +28,11 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
     }
 
     fun updateSwipe(currentPos: Point) {
-        solidRect(10, 10, Colors.RED) {
-            anchor(Anchor.MIDDLE_CENTER)
-            position(currentPos)
-        }
+        particleEmitterPos.setTo(currentPos.x, currentPos.y)
     }
 
-    fun clearSwipe() {
-        this.removeChildren()
+    fun resetSwipe() {
+        particleEmitterPos.setTo(-10.0, -10.0)
     }
 
 }
