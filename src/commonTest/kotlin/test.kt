@@ -44,7 +44,7 @@ class MyTest : ViewsForTesting() {
 		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0)
 		val testBackground = LevelBackground("test_level", "fileLocation/testBackgroundFile")
 
-		val testLevelData = LevelDataFactory.createLevel(testManager, testScore, testEnemy, testPlayer, testBackground)
+		val testLevelData = LevelDataFactory.createLevelTest(testManager, testScore, testEnemy, testPlayer, testBackground)
 
 		println(testLevelData.toString())
 	}
@@ -86,12 +86,6 @@ class MyTest : ViewsForTesting() {
 
 	@Test
 	fun testJson() {
-		/*
-		val p = Placemarker(1, 100, 200)
-		val pJson= Json.encodeToString(p)
-		println(pJson)
-		*/
-
 		val world = GameMap(1, "map\\grass.png",
 		listOf(Placemarker(1, 300, 300, false,
 				LevelData("First Level", TimeSpan(60000.0),
@@ -100,5 +94,17 @@ class MyTest : ViewsForTesting() {
 		))))
 		val pWorld = Json{prettyPrint = true}.encodeToString(world)
 		println(pWorld)
+	}
+
+	@Test
+	fun testEnemySerialization() {
+		val enemy = Enemy("Leroy", 100.0, "ballbot\\spritesheet.png", 64, 64, 2, 2)
+		var sEnemy = Json.encodeToString(enemy)
+		sEnemy = sEnemy.substring(1, sEnemy.length - 1)
+		println(sEnemy)
+		val jEnemy = Json.decodeFromString<Enemy>("""
+		{"name" : "Leroy","maxHealth":100.0,"spriteFileLoc":"ballbot\\spritesheet.png","spriteWidth":64,"spriteHeight":64,"spriteMapCols":2,"spriteMapRows":2}
+			""".trimIndent())
+		println(jEnemy.toString())
 	}
 }

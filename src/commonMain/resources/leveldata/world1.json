@@ -1,0 +1,27 @@
+{
+  "world": 1,
+  "backgroundPath": "map\\grass.png",
+  "levels": [
+    {
+      "level": 1,
+      "xLocation": -1,
+      "yLocation": -1,
+      "levelData": {
+        "levelName": "First Level",
+        "currentEnemy": {
+          "name": "Leroy",
+          "maxHealth": 100.0,
+          "spriteFileLoc": "ballbot\\spritesheet.png",
+          "spriteWidth": 64,
+          "spriteHeight": 64,
+          "spriteMapCols": 2,
+          "spriteMapRows": 2
+        },
+        "levelBackground": {
+          "name": "First Level Background",
+          "spriteFile": "battle\\first_level.png"
+        }
+      }
+    }
+  ]
+}
