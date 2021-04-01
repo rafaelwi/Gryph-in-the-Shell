@@ -12,8 +12,8 @@
           "name": "Leroy",
           "maxHealth": 100.0,
           "spriteFileLoc": "clawbot\\1\\spritesheet.png",
-          "spriteWidth": 64,
-          "spriteHeight": 64,
+          "spriteWidth": 41,
+          "spriteHeight": 26,
           "spriteMapCols": 2,
           "spriteMapRows": 2
         },

@@ -34,7 +34,7 @@ object GameMapFactory {
 
     // https://bezkoder.com/kotlin-android-read-json-file-assets-gson/
     suspend fun readLevelData(filename : String) : String {
-        var levelDataContents : String
+        val levelDataContents : String
 
         levelDataContents = try {
             resourcesVfs[filename].readString()
