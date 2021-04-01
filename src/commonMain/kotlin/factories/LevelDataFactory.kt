@@ -5,6 +5,8 @@ import map.Placemarker
 import models.entities.Enemy
 import models.LevelData
 import models.LevelManager
+import models.entities.AttackMoveset
+import models.entities.AttackPattern
 import models.entities.Player
 import models.gui.LevelBackground
 
@@ -20,7 +22,11 @@ object LevelDataFactory {
 
     fun createTestLevel(levelManager: LevelManager): LevelData {
 
-        val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png", 41, 26, 2, 2)
+        var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+        var basicAttackPattern2 = AttackPattern(2.0, 5000.0, 6, 100.0)
+        var basicAttackPattern3 = AttackPattern(20.0, 5000.0, 2, 2000.0)
+        var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern, basicAttackPattern2, basicAttackPattern3))
+        val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png", 41, 26, 2, 2, basicAttackMoveset)
         val testPlayer = Player("testPlayer", 100.0)
 
         return LevelData("TestStage", null, levelManager, testEnemy, testPlayer, null)

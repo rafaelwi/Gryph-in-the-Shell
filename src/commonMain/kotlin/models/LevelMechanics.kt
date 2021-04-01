@@ -1,21 +1,48 @@
 package models
 
+import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.input.mouse
-import com.soywiz.korge.particle.ParticleEmitter
-import com.soywiz.korge.particle.readParticleEmitter
 import com.soywiz.korge.view.Sprite
+import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.hitTest
-import com.soywiz.korio.file.std.resourcesVfs
+import com.soywiz.korge.view.views
 import com.soywiz.korma.geom.Point
 import models.entities.Enemy
 import models.components.SwipeComponent
+import models.entities.AttackMovesetPlayer
+import models.entities.Player
 
 class LevelMechanics(private var levelData: LevelData,
+                     private var levelManager: LevelManager?,
                      private var enemySprite: Sprite,
-                     private var currentEnemy: Enemy) {
+                     private var currentEnemy: Enemy,
+                     private var currentPlayer: Player?) {
+
+    private lateinit var testPlayer: AttackMovesetPlayer
 
     suspend fun init() {
         initSwipeMechanics()
+        initAttackMoveset()
+        //initHoldMechanic()
+    }
+
+    private fun initAttackMoveset() {
+        testPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
+    }
+
+    //To be implemented
+    private suspend fun initHoldMechanic() {
+
+        /** levelData.mouse {
+            onDown {
+                testPlayer.nullify()
+            }
+
+            onUpAnywhere {
+                testPlayer.reactivate()
+            }
+        } */
+
     }
 
     private suspend fun initSwipeMechanics() {
@@ -58,6 +85,10 @@ class LevelMechanics(private var levelData: LevelData,
                 swipeGraphic.resetSwipe()
             }
         }
+    }
+
+    fun initiateAttack(dt: TimeSpan?) {
+        testPlayer.playMoveset()
     }
 
 }

@@ -6,6 +6,9 @@ import com.soywiz.korge.particle.*
 import com.soywiz.korge.view.*
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Point
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class SwipeComponent(private val mouse: MouseEvents): Container() {
 
@@ -15,7 +18,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
     var inSwipe = false
 
     suspend fun init() {
-        particleEmitterPos = Point(-10.0, -10.0)
+        particleEmitterPos = Point(-20.0, -20.0)
         particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
         particleEmitterView = particleEmitter(particleEmitter, particleEmitterPos)
         addFixedUpdater(60.timesPerSecond) {
@@ -32,7 +35,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
     }
 
     fun resetSwipe() {
-        particleEmitterPos.setTo(-10.0, -10.0)
+        particleEmitterPos.setTo(-20.0, -20.0)
     }
 
 }
