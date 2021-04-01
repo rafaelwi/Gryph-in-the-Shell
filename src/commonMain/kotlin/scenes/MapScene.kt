@@ -8,8 +8,12 @@ import com.soywiz.korim.format.readBitmap
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import map.GameMap
 import map.GameMapFactory
+import models.entities.Enemy
 
 class MapScene : Scene() {
     val deviceWidth : Int = MainModule.size.width
@@ -19,15 +23,9 @@ class MapScene : Scene() {
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
+        GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
 
-        val world = GameMapFactory.createTestGameMap(null)
-        drawGameMap(world, this)
-
-        text("Map Scene", textSize = 100.0, alignment = TextAlignment.TOP_CENTER, color = Colors.BLACK) {
-            position(deviceWidth / 2.0, 0.0)
-        }
-
-        // Settings button
+        // Settings button, can be added to the GameMapFactory
         image(SETTINGS_ICON.readBitmap()) {
             anchor(Anchor.TOP_RIGHT)
             position(deviceWidth, 0)
@@ -39,6 +37,7 @@ class MapScene : Scene() {
         }
     }
 
+    @Deprecated("Don't use this")
     private suspend fun drawGameMap(gameMap : GameMap, c: Container){
         // Draw the game map
         // For the atlas/tiling background: https://github.com/korlibs/korge-samples/tree/master/samples/atlas

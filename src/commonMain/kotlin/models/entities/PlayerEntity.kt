@@ -1,11 +1,13 @@
 package models.entities
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 open class PlayerEntity(private var name: String,
                         private var maxHealth: Double) {
 
+    @Transient
     private var currentHealth = maxHealth;
 
     fun setName(newName: String) {
