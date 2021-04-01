@@ -1,9 +1,9 @@
 package models.entities
 
-import com.soywiz.klock.seconds
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.*
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.CompositeDecoder.Companion.DECODE_DONE
 import kotlinx.serialization.encoding.Decoder
@@ -17,7 +17,8 @@ class Enemy(name: String, maxHealth: Double,
             private var spriteWidth: Int,
             private var spriteHeight: Int,
             private var spriteMapCols: Int,
-            private var spriteMapRows: Int): PlayerEntity(name, maxHealth) {
+            private var spriteMapRows: Int,
+            private var attackMoveset: AttackMoveset): PlayerEntity(name, maxHealth) {
 
     // To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062
     @OptIn(ExperimentalSerializationApi::class)
@@ -31,6 +32,7 @@ class Enemy(name: String, maxHealth: Double,
             element<Int>("spriteHeight")
             element<Int>("spriteMapCols")
             element<Int>("spriteMapRows")
+            element<AttackMoveset>("attackMoveset")
         }
 
         override fun serialize(encoder: Encoder, value: Enemy) {
@@ -42,6 +44,7 @@ class Enemy(name: String, maxHealth: Double,
                 encodeIntElement(descriptor, 4, value.getSpriteHeight())
                 encodeIntElement(descriptor, 5, value.getSpriteMapCols())
                 encodeIntElement(descriptor, 6, value.getSpriteMapRows())
+                encodeSerializableElement(descriptor, 7, AttackMoveset.serializer(), value.getAttackMoveset())
             }
         }
 
@@ -54,6 +57,7 @@ class Enemy(name: String, maxHealth: Double,
                 var spriteHeight: Int = -1
                 var spriteMapCols: Int = -1
                 var spriteMapRows: Int = -1
+                var attackMoveset: AttackMoveset? = null
 
                 loop@ while (true) {
                     when (val index = decodeElementIndex(descriptor)) {
@@ -65,11 +69,13 @@ class Enemy(name: String, maxHealth: Double,
                         4 -> spriteHeight = decodeIntElement(descriptor,4)
                         5 -> spriteMapCols = decodeIntElement(descriptor, 5)
                         6 -> spriteMapRows = decodeIntElement(descriptor, 6)
+                        7 -> attackMoveset = decodeSerializableElement(descriptor, 7, AttackMoveset.serializer())
                         else -> throw SerializationException("Unexpected index $index")
                     }
                 }
 
-                Enemy(name, maxHealth, spriteFileLoc, spriteWidth, spriteHeight, spriteMapCols, spriteMapRows)
+                Enemy(name, maxHealth, spriteFileLoc, spriteWidth, spriteHeight, spriteMapCols, spriteMapRows,
+                        requireNotNull(attackMoveset))
             }
         }
     }
@@ -115,9 +121,7 @@ class Enemy(name: String, maxHealth: Double,
     }
 
     fun getAttackMoveset(): AttackMoveset {
-        var basicAttackPattern = AttackPattern(10.0, 5.seconds, 3, 2.seconds)
-        var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
-        return basicAttackMoveset
+        return attackMoveset
     }
 
     override fun toString(): String {

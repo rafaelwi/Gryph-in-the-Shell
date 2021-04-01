@@ -15,13 +15,24 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
     private lateinit var randomAttackPattern: AttackPattern
     private lateinit var randomAttackPatternPlayer: AttackPatternPlayer
     private var lastPatternTimestamp: TimeSpan
+    private var lastPatternDamage: Double
 
     init {
         playing = false
         lastPatternTimestamp = 0.milliseconds
         index = initRandIndex()
         initPattern(index)
+        lastPatternDamage = randomAttackPattern.getDamage()
         initPatternPlayer(index)
+    }
+
+    fun nullify() {
+        lastPatternDamage = randomAttackPattern.getDamage()
+        randomAttackPattern.setDamage(0.0)
+    }
+
+    fun reactivate() {
+        randomAttackPattern.setDamage(lastPatternDamage)
     }
 
     fun initRandIndex(): Int {
