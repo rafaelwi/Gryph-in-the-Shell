@@ -11,7 +11,7 @@
         "currentEnemy": {
           "name": "Leroy",
           "maxHealth": 100.0,
-          "spriteFileLoc": "ballbot\\spritesheet.png",
+          "spriteFileLoc": "clawbot\\1\\spritesheet.png",
           "spriteWidth": 64,
           "spriteHeight": 64,
           "spriteMapCols": 2,

@@ -12,6 +12,8 @@ import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
 import models.LevelData
+import models.LevelManager
+import models.entities.Player
 import scenes.LevelScene
 
 object PlacemarkerFactory {
@@ -32,6 +34,9 @@ object PlacemarkerFactory {
         }
 
         icon = if (p.complete) "map\\placemark_complete.png" else "map\\placemark_incomplete.png"
+
+        p.levelData?.setLevelManager(LevelManager(c, sc))
+        p.levelData?.setCurrentPlayer(Player("Hero", 100.0)) // We can pass character obj here?
 
         println(p.levelData.toString())
 
