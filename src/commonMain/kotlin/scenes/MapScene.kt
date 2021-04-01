@@ -23,8 +23,6 @@ class MapScene : Scene() {
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
-
-
         GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
 
         // Settings button, can be added to the GameMapFactory
@@ -39,6 +37,7 @@ class MapScene : Scene() {
         }
     }
 
+    @Deprecated("Don't use this")
     private suspend fun drawGameMap(gameMap : GameMap, c: Container){
         // Draw the game map
         // For the atlas/tiling background: https://github.com/korlibs/korge-samples/tree/master/samples/atlas

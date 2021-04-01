@@ -44,7 +44,6 @@ class Enemy(name: String, maxHealth: Double,
             }
         }
 
-        // TODO: Could be cleaned up (https://stackoverflow.com/a/65272372/5310062)
         override fun deserialize(decoder: Decoder): Enemy {
             return decoder.decodeStructure(descriptor) {
                 var name : String = "noname"
@@ -70,7 +69,6 @@ class Enemy(name: String, maxHealth: Double,
                 }
 
                 Enemy(name, maxHealth, spriteFileLoc, spriteWidth, spriteHeight, spriteMapCols, spriteMapRows)
-
             }
         }
     }

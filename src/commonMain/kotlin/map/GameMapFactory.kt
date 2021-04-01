@@ -23,7 +23,7 @@ object GameMapFactory {
 
     suspend fun createGameMap(c : Container, sc : SceneContainer, filename : String){
         val fileContents = readLevelData(filename)
-        var gameMap = Json{isLenient = true}.decodeFromString<GameMap>(fileContents)
+        val gameMap = Json{isLenient = true}.decodeFromString<GameMap>(fileContents)
 
         drawGameMap(c, sc, gameMap.backgroundPath.toString())
 
@@ -36,12 +36,12 @@ object GameMapFactory {
     suspend fun readLevelData(filename : String) : String {
         var levelDataContents : String
 
-        try {
-            levelDataContents = resourcesVfs[filename].readString()
+        levelDataContents = try {
+            resourcesVfs[filename].readString()
         }
         catch (ioException: IOException) {
             ioException.printStackTrace()
-            levelDataContents = null.toString()
+            null.toString()
         }
         return levelDataContents
     }

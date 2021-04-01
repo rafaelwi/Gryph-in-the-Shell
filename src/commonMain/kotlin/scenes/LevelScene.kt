@@ -6,7 +6,7 @@ import com.soywiz.korim.text.TextAlignment
 import models.LevelManager
 import factories.LevelDataFactory
 
-class LevelScene : Scene() {
+class LevelScene (/* TODO: Add injector deps here */) : Scene() {
     val deviceWidth : Int = MainModule.size.width
     val deviceHeight : Int = MainModule.size.height
     // Entrypoint

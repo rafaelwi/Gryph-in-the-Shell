@@ -27,7 +27,7 @@ object MainModule : Module() {
     override val windowSize = SizeInt(360, 740)
 
     override suspend fun AsyncInjector.configure() {
-        mapPrototype { LevelScene() }
+        mapPrototype { LevelScene( /* TODO: Add dependency injectors here */) }
         mapPrototype { MapScene() }
         mapPrototype { SettingsScene() }
         mapPrototype { TitleScene() }

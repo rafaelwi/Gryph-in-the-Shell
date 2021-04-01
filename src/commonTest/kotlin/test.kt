@@ -4,7 +4,6 @@ import com.soywiz.korge.tests.*
 import com.soywiz.korge.tween.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
-import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.*
 import factories.LevelDataFactory
 import models.LevelManager
@@ -17,7 +16,6 @@ import models.gui.LevelBackground
 import kotlin.test.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
-import map.GameMapFactory
 import models.LevelData
 
 class MyTest : ViewsForTesting() {
@@ -46,7 +44,7 @@ class MyTest : ViewsForTesting() {
 		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0)
 		val testBackground = LevelBackground("test_level", "fileLocation/testBackgroundFile")
 
-		val testLevelData = LevelDataFactory.createLevel(testManager, testScore, testEnemy, testPlayer, testBackground)
+		val testLevelData = LevelDataFactory.createLevelTest(testManager, testScore, testEnemy, testPlayer, testBackground)
 
 		println(testLevelData.toString())
 	}
