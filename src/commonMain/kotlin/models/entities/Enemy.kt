@@ -17,8 +17,6 @@ class Enemy(name: String, maxHealth: Double,
             private var spriteMapCols: Int,
             private var spriteMapRows: Int): PlayerEntity(name, maxHealth) {
 
-    private var basicAttackPattern = AttackPattern(10.0, 5.seconds, 3, 2.seconds)
-
     // To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062
     object EnemySerializer : KSerializer<Enemy> {
         override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Enemy") {
@@ -96,7 +94,9 @@ class Enemy(name: String, maxHealth: Double,
         return spriteMapRows
     }
 
-    fun getAttackPattern(): AttackPattern {
-        return basicAttackPattern
+    fun getAttackMoveset(): AttackMoveset {
+        var basicAttackPattern = AttackPattern(10.0, 5.seconds, 3, 2.seconds)
+        var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
+        return basicAttackMoveset
     }
 }

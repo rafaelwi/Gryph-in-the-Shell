@@ -1,18 +1,14 @@
 package models
 
 import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.milliseconds
-import com.soywiz.klock.seconds
-import com.soywiz.klogger.Console
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
-import com.soywiz.korio.async.delay
-import com.soywiz.korio.async.launch
 import com.soywiz.korma.geom.Point
-import kotlinx.coroutines.CoroutineScope
 import models.entities.Enemy
 import models.components.SwipeComponent
+import models.entities.AttackMovesetPlayer
+import models.entities.AttackPatternPlayer
 import models.entities.Player
 
 class LevelMechanics(private var levelData: LevelData,
@@ -21,14 +17,15 @@ class LevelMechanics(private var levelData: LevelData,
                      private var currentEnemy: Enemy,
                      private var currentPlayer: Player?) {
 
-    private var nextCycleTimestamp = 0.milliseconds
+    private lateinit var testPlayer: AttackMovesetPlayer
 
     suspend fun init() {
         initSwipeMechanics()
+        initAttackMoveset()
     }
 
-    private suspend fun initAttackPattern() {
-
+    private fun initAttackMoveset() {
+        testPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
     }
 
     private suspend fun initSwipeMechanics() {
@@ -73,20 +70,8 @@ class LevelMechanics(private var levelData: LevelData,
         }
     }
 
-    fun checkInitiateAttack(dt: TimeSpan?) {
-        var currTime = levelManager?.getCurrTime()
-
-        if (currTime != null && levelManager?.getIsOngoing() == true) {
-            if (currTime >= currentEnemy.getAttackPattern().getTimeUntilInitiate()) {
-                if (currentEnemy.getAttackPattern().getCurrentCycles() > 0 && currTime >= nextCycleTimestamp) {
-                    Console.log("attacking on cycle ", currentEnemy.getAttackPattern().getCurrentCycles())
-                    levelManager!!.triggerIsHit()
-                    currentPlayer?.reduceHealth(currentEnemy.getAttackPattern().getDamage())
-                    currentEnemy.getAttackPattern().decrementCycle()
-                    nextCycleTimestamp = currTime + currentEnemy.getAttackPattern().getTimeBetweenCycles()
-                }
-            }
-        }
+    fun initiateAttack(dt: TimeSpan?) {
+        testPlayer.playMoveset()
     }
 
 }

@@ -48,7 +48,7 @@ class LevelData(private val levelName: String,
 
         addUpdater {
             this.checkGameStatus(score)
-            this.checkEnemyStatus(score)
+            this.updateEnemyStatus(score)
         }
     }
 
@@ -112,8 +112,8 @@ class LevelData(private val levelName: String,
         }
     }
 
-    private fun checkEnemyStatus(dt: TimeSpan?) {
-        levelMechanics.checkInitiateAttack(dt);
+    private fun updateEnemyStatus(dt: TimeSpan?) {
+        levelMechanics.initiateAttack(dt);
     }
 
 
