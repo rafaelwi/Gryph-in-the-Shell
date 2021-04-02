@@ -19,7 +19,9 @@ class LevelData(private val levelName: String,
                 @Transient
                 private val score: TimeSpan? = null,
                 @Transient
-                private val levelManager : LevelManager? = null,
+                private val levelManager: LevelManager? = null,
+                @Transient
+                private val screenManager: ScreenManager? = null,
                 private val currentEnemy: Enemy,
                 @Transient
                 private val currentPlayer: Player? = null,
@@ -46,9 +48,10 @@ class LevelData(private val levelName: String,
         initMechanics()
         initGameOverMenu()
 
-        addUpdater {
+        addFixedUpdater(60.timesPerSecond) {
             this.checkGameStatus(score)
             this.updateEnemyStatus(score)
+            this.checkScreenStatus()
         }
     }
 
@@ -110,6 +113,10 @@ class LevelData(private val levelName: String,
             Console.log(levelManager.getScore())
             this.addChild(gameOverMenu)
         }
+    }
+
+    private fun checkScreenStatus() {
+        screenManager?.check()
     }
 
     private fun updateEnemyStatus(dt: TimeSpan?) {

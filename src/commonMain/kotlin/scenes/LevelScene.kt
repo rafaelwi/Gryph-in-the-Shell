@@ -5,14 +5,16 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.text.TextAlignment
 import models.LevelManager
 import factories.LevelDataFactory
+import models.ScreenManager
 
 class LevelScene (/* TODO: Add injector deps here */) : Scene() {
     val deviceWidth : Int = MainModule.size.width
     val deviceHeight : Int = MainModule.size.height
     // Entrypoint
     override suspend fun Container.sceneInit() {
-        val game = LevelManager(this, sceneContainer)
-        val level = LevelDataFactory.createTestLevel(game)
+        val gameManager = LevelManager(this, sceneContainer)
+        val screenManager = ScreenManager(sceneView, gameManager)
+        val level = LevelDataFactory.createTestLevel(gameManager, screenManager)
         addChild(level)
         level.init()
 

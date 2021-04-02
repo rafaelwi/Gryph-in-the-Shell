@@ -5,7 +5,7 @@ import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.Container
 import constants.LevelStatus
 
-class LevelManager(private val container : Container, val sceneContainer: SceneContainer?) {
+class LevelManager(private val mainScreen : Container, val sceneContainer: SceneContainer?) {
 
     private var isOngoing: Boolean
     private var battleStatus: LevelStatus

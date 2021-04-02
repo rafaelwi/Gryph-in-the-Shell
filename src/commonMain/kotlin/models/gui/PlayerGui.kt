@@ -15,17 +15,11 @@ class PlayerGui(private var levelManager: LevelManager?, private val currentPlay
 
     private var playerHealthBar: Container
     private var enemyHealthBar: Container
-    private var hitScreen: SolidRect
 
     init {
         playerHealthBar = PlayerHealthBarComponent(currentPlayer, Colors.GREEN)
         enemyHealthBar = HealthBarComponent(currentEnemy, Colors.RED)
-        hitScreen = solidRect(MainModule.size.width, MainModule.size.height, Colors.RED)
         buildHealthGui(playerHealthBar, enemyHealthBar)
-        buildHitScreen(hitScreen)
-        addFixedUpdater(30.timesPerSecond) {
-            checkHitScreen(levelManager, hitScreen)
-        }
     }
 
     private fun buildHealthGui(playerHealthBar: Container, enemyHealthBar: Container) {
@@ -34,22 +28,6 @@ class PlayerGui(private var levelManager: LevelManager?, private val currentPlay
 
         addChild(playerHealthBar)
         addChild(enemyHealthBar)
-    }
-
-    private fun buildHitScreen(hitScreen: SolidRect) {
-        hitScreen.position(MainModule.size.width * 0.5, MainModule.size.height * 0.5).anchor(Anchor.MIDDLE_CENTER)
-        hitScreen.alpha(0)
-        addChild(hitScreen)
-    }
-
-    private fun checkHitScreen(levelManager: LevelManager?, hitScreen: SolidRect) {
-        if (levelManager!!.getIsHit()) {
-            Console.log("Flashed hit")
-            hitScreen.alpha(0.5)
-            levelManager!!.triggerIsHit()
-        } else {
-            hitScreen.alpha(0)
-        }
     }
 
 }

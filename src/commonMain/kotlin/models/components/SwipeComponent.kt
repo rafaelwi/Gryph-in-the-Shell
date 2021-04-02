@@ -17,6 +17,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
     private lateinit var particleEmitterPos: Point
     var inSwipe = false
 
+
     suspend fun init() {
         particleEmitterPos = Point(-20.0, -20.0)
         particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
