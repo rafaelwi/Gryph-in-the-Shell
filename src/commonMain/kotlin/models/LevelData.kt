@@ -1,13 +1,11 @@
 package models
 
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.milliseconds
-import com.soywiz.klock.timesPerSecond
+import com.soywiz.klock.*
+import com.soywiz.klogger.Console
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import models.entities.Enemy
@@ -48,13 +46,14 @@ class LevelData(private val levelName: String,
         initMechanics()
         initGameOverMenu()
 
-        addFixedUpdater(10.timesPerSecond) {
+        addUpdater {
             this.checkGameStatus(score)
+            this.updateEnemyStatus(score)
         }
     }
 
     fun initGui() {
-        playerGui = this.buildGui(currentPlayer, currentEnemy)
+        playerGui = this.buildGui(levelManager, currentPlayer, currentEnemy)
         this.addChild(playerGui)
     }
 
@@ -64,30 +63,31 @@ class LevelData(private val levelName: String,
 
     suspend fun initEnemy() {
         enemySprite = this.buildEnemySprite()
-        enemySprite.xy(deviceWidth / 2.0, deviceHeight / 2.0)
+        enemySprite.xy(deviceWidth * 0.5, deviceHeight * 0.5)
         enemySprite.anchor(Anchor.MIDDLE_CENTER)
         this.startAnimation(enemySprite)
     }
 
-    fun initMechanics() {
-        levelMechanics = this.buildGameMechanics(this, enemySprite, currentEnemy)
+    suspend fun initMechanics() {
+        levelMechanics = this.buildGameMechanics(this, levelManager, enemySprite, currentEnemy, currentPlayer)
+        levelMechanics.init()
     }
 
     fun initGameOverMenu() {
         gameOverMenu = this.buildGameOverMenu(levelManager)
     }
 
-    private fun buildGameMechanics(levelData: LevelData, enemySprite: Sprite, currentEnemy: Enemy): LevelMechanics {
-        return LevelMechanics(levelData, enemySprite, currentEnemy)
+    private fun buildGameMechanics(levelData: LevelData, levelManager: LevelManager?, enemySprite: Sprite, currentEnemy: Enemy, currentPlayer: Player?): LevelMechanics {
+        return LevelMechanics(levelData, levelManager, enemySprite, currentEnemy, currentPlayer)
     }
 
     private fun buildGameOverMenu(levelManager: LevelManager?): Container {
-        return GameOverMenu(levelManager).position(deviceWidth / 2.0, deviceHeight / 3.5).scale(2.0, 2.0)
+        return GameOverMenu(levelManager).position(deviceWidth * 0.5, deviceHeight * 0.3).scale(2.0, 2.0)
     }
 
     /** GUI */
-    private fun buildGui(currentPlayer: Player?, currentEnemy: Enemy): Container {
-        return PlayerGui(currentPlayer, currentEnemy)
+    private fun buildGui(levelManager: LevelManager?, currentPlayer: Player?, currentEnemy: Enemy): Container {
+        return PlayerGui(levelManager, currentPlayer, currentEnemy)
     }
 
     /** Enemy Sprite */
@@ -105,11 +105,17 @@ class LevelData(private val levelName: String,
 
     /** Game Status Updater */
     private fun checkGameStatus(dt: TimeSpan?) {
-        if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.isOngoing == true)  {
+        if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
+            Console.log(levelManager.getScore())
             this.addChild(gameOverMenu)
         }
     }
+
+    private fun updateEnemyStatus(dt: TimeSpan?) {
+        levelMechanics.initiateAttack(dt);
+    }
+
 
     private fun startAnimation(sprite: Sprite) {
         sprite.playAnimationLooped(spriteDisplayTime = 150.milliseconds)

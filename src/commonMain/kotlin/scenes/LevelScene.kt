@@ -20,7 +20,7 @@ class LevelScene (levelData: LevelData) : Scene() {
         levelData.init()
 
         text("Battle Scene", textSize = 100.0, alignment = TextAlignment.TOP_CENTER) {
-            position(deviceWidth / 2.0, 0.0)
+            position(deviceWidth * 0.5, 0.0)
         }
     }
 }
