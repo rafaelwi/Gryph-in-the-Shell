@@ -42,11 +42,8 @@ class LevelData(private val levelName: String,
 
     suspend fun init() {
         levelManager?.start()
-        println("Started level manager")
         initStage()
-        println("Stage inited")
         initGui()
-        println("Gui inited")
         initEnemy()
         initMechanics()
         initGameOverMenu()

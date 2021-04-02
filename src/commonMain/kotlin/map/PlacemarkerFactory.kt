@@ -47,17 +47,8 @@ object PlacemarkerFactory {
             mouse {
                 over { tint = Colors.ORANGERED }
                 out { tint = Colors.ORANGE }
-                // TODO: We need to pass the placemarker's BattleStage data into the onClick (see injectors?)
                 onClick { sc.changeTo<LevelScene>(p.levelData!!) }
             }
         }
     }
-
-    /*
-    // This function will take in some JSON object that contains level data and make a placemarker to draw on the map
-    fun createPlacemarker(battleStage: BattleStage) : Placemarker {
-        // Process JSON here
-        return Placemarker(// with the level data in here)
-    }
-     */
 }

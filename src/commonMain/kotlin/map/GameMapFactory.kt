@@ -1,6 +1,5 @@
 package map
 
-import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.image

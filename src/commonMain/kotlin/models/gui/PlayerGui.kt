@@ -6,7 +6,6 @@ import models.entities.Enemy
 import models.entities.Player
 
 class PlayerGui(private val currentPlayer: Player?, private val currentEnemy: Enemy?): Container() {
-
     private var playerHealthBar: Container
     private var enemyHealthBar: Container
 
@@ -23,5 +22,4 @@ class PlayerGui(private val currentPlayer: Player?, private val currentEnemy: En
         this.addChild(playerHealthBar)
         this.addChild(enemyHealthBar)
     }
-
 }

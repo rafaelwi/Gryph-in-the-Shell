@@ -46,9 +46,9 @@ class Enemy(name: String, maxHealth: Double,
 
         override fun deserialize(decoder: Decoder): Enemy {
             return decoder.decodeStructure(descriptor) {
-                var name : String = "noname"
-                var maxHealth : Double = 0.0
-                var spriteFileLoc : String = "null"
+                var name = "noname"
+                var maxHealth = 0.0
+                var spriteFileLoc = "null"
                 var spriteWidth: Int = -1
                 var spriteHeight: Int = -1
                 var spriteMapCols: Int = -1
