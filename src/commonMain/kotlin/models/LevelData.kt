@@ -107,13 +107,13 @@ class LevelData(private val levelName: String,
     private fun checkGameStatus(dt: TimeSpan?) {
         if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
-            Console.log(levelManager.getScore())
+            Console.log(levelManager!!.getScore())
             this.addChild(gameOverMenu)
         }
     }
 
     private fun updateEnemyStatus(dt: TimeSpan?) {
-        levelMechanics.initiateAttack(dt);
+        levelMechanics.initiateAttack(dt)
     }
 
 

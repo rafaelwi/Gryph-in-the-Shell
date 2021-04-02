@@ -38,8 +38,6 @@ object PlacemarkerFactory {
         p.levelData?.setLevelManager(LevelManager(c, sc))
         p.levelData?.setCurrentPlayer(Player("Hero", 100.0)) // We can pass character obj here?
 
-        println(p.levelData.toString())
-
         c.image(resourcesVfs[icon].readBitmap()){
             setSizeScaled(256.0, 142.0)
             anchor(Anchor.MIDDLE_CENTER)
