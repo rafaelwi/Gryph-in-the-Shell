@@ -124,8 +124,25 @@ class MyTest : ViewsForTesting() {
 		println(sEnemy)
 		println("2. Object Decoding (from Json)")
 		val jEnemy = Json.decodeFromString<Enemy>("""
-		{"name" : "Leroy","maxHealth":100.0,"spriteFileLoc":"ballbot\\spritesheet.png","spriteWidth":64,"spriteHeight":64,"spriteMapCols":2,"spriteMapRows":2,"attackMoveset":{"attackPatterns":[{"attackDamage":5.0,"timeUntilInitiate":5000.0,"totalCycles":3,"timeBetweenCycles":1000.0}]}}
-			""".trimIndent())
+		{
+			"name" : "Leroy",
+			"maxHealth":100.0,
+			"spriteFileLoc":"ballbot\\spritesheet.png",
+			"spriteWidth":64,
+			"spriteHeight":64,
+			"spriteMapCols":2,
+			"spriteMapRows":2,
+			"attackMoveset":{
+				"attackPatterns":[
+					{
+						"attackDamage":5.0,
+						"timeUntilInitiate":5000.0,
+						"totalCycles":3,
+						"timeBetweenCycles":1000.0
+					}
+				]
+			}
+		}""".trimIndent())
 		println(jEnemy.toString())
 		println(jEnemy.getMaxHealth())
 		println(jEnemy.getName())
@@ -139,7 +156,12 @@ class MyTest : ViewsForTesting() {
 		println(pPattern)
 		println("2. Object Decoding (from Json)")
 		val pPatternObj = Json.decodeFromString<AttackPattern>("""
-		{"attackDamage":5.0,"timeUntilInitiate":5000.0,"totalCycles":3,"timeBetweenCycles":1000.0}""".trimIndent())
+		{
+			"attackDamage":5.0,
+			"timeUntilInitiate":5000.0,
+			"totalCycles":3,
+			"timeBetweenCycles":1000.0
+		}""".trimIndent())
 		println(pPatternObj.getDamage())
 		println(pPatternObj.getTimeBetweenCycles())
 		println(pPatternObj.getTimeUntilInitiate())
@@ -156,7 +178,16 @@ class MyTest : ViewsForTesting() {
 		println(pMoveset)
 		println("2. Object Decoding (from Json)")
 		val pMovesetObj = Json.decodeFromString<AttackMoveset>("""
-		{"attackPatterns":[{"attackDamage":5.0,"timeUntilInitiate":5000.0,"totalCycles":3,"timeBetweenCycles":1000.0}]}""".trimIndent())
+		{
+			"attackPatterns":[
+				{
+					"attackDamage":5.0,
+					"timeUntilInitiate":5000.0,
+					"totalCycles":3,
+					"timeBetweenCycles":1000.0
+				}
+			]
+		}""".trimIndent())
 		println("Size of moveset: ${pMovesetObj.getNumberOfPatterns()}")
 		println(pMovesetObj.getAttackPatterns()[0].getDamage())
 		println(pMovesetObj.getAttackPatterns()[0].getTimeBetweenCycles())

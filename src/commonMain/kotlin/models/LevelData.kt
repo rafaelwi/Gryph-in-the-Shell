@@ -19,7 +19,9 @@ class LevelData(private val levelName: String,
                 @Transient
                 private val score: TimeSpan? = null,
                 @Transient
-                private var levelManager : LevelManager? = null,
+                private var levelManager: LevelManager? = null,
+                @Transient
+                private var screenManager: ScreenManager? = null,
                 private val currentEnemy: Enemy,
                 @Transient
                 private var currentPlayer: Player? = null,
@@ -46,9 +48,10 @@ class LevelData(private val levelName: String,
         initMechanics()
         initGameOverMenu()
 
-        addUpdater {
+        addFixedUpdater(60.timesPerSecond) {
             this.checkGameStatus(score)
             this.updateEnemyStatus(score)
+            this.checkScreenStatus()
         }
     }
 
@@ -112,6 +115,10 @@ class LevelData(private val levelName: String,
         }
     }
 
+    private fun checkScreenStatus() {
+        screenManager?.check()
+    }
+
     private fun updateEnemyStatus(dt: TimeSpan?) {
         levelMechanics.initiateAttack(dt)
     }
@@ -125,8 +132,16 @@ class LevelData(private val levelName: String,
         sprite.stopAnimation()
     }
 
+    fun getLevelManager(): LevelManager? {
+        return this.levelManager
+    }
+
     fun setLevelManager(levelManager: LevelManager?) {
         this.levelManager = levelManager
+    }
+
+    fun setScreenManager(screenManager: ScreenManager?) {
+        this.screenManager = screenManager
     }
 
     fun setCurrentPlayer (currentPlayer: Player?) {
