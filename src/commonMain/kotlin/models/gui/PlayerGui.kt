@@ -12,7 +12,6 @@ import models.entities.Enemy
 import models.entities.Player
 
 class PlayerGui(private var levelManager: LevelManager?, private val currentPlayer: Player?, private val currentEnemy: Enemy?): Container() {
-
     private var playerHealthBar: Container
     private var enemyHealthBar: Container
     private var hitScreen: SolidRect
@@ -51,5 +50,4 @@ class PlayerGui(private var levelManager: LevelManager?, private val currentPlay
             hitScreen.alpha(0)
         }
     }
-
 }
