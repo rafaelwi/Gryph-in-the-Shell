@@ -2,7 +2,6 @@ package models.entities
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
-import com.soywiz.klogger.Console
 import models.LevelManager
 import kotlin.random.Random
 

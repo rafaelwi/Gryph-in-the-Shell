@@ -6,11 +6,12 @@ import com.soywiz.korge.particle.*
 import com.soywiz.korge.view.*
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Point
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
+import models.LevelManager
 
-class SwipeComponent(private val mouse: MouseEvents): Container() {
+/**
+ * Note: Possible that there's some inconsistencies in swipes after thorough testing. Will investigate further later.
+ */
+class SwipeComponent(private val levelManager: LevelManager?, private val mouse: MouseEvents): Container() {
 
     private lateinit var particleEmitterView: ParticleEmitterView
     private lateinit var particleEmitter: ParticleEmitter
@@ -23,7 +24,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
         particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
         particleEmitterView = particleEmitter(particleEmitter, particleEmitterPos)
         addFixedUpdater(60.timesPerSecond) {
-            if (inSwipe) updateSwipe(mouse.currentPosStage)
+            if (inSwipe && levelManager?.getIsOngoing() == true) updateSwipe(mouse.currentPosStage)
         }
     }
 

@@ -1,13 +1,10 @@
 package models.gui
 
 import com.soywiz.klock.timesPerSecond
-import com.soywiz.klogger.Console
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korma.geom.Anchor
-import models.entities.Enemy
-import models.entities.Player
 import models.entities.PlayerEntity
 
 open class HealthBarComponent(private val givenEntity: PlayerEntity?, private val color: RGBA) : Container() {
