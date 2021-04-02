@@ -1,7 +1,6 @@
 package factories
 
 import com.soywiz.klock.TimeSpan
-import map.Placemarker
 import models.entities.Enemy
 import models.LevelData
 import models.LevelManager
@@ -22,7 +21,6 @@ object LevelDataFactory {
     }
 
     fun createTestLevel(levelManager: LevelManager, screenManager: ScreenManager): LevelData {
-
         var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
         var basicAttackPattern2 = AttackPattern(2.0, 5000.0, 6, 100.0)
         var basicAttackPattern3 = AttackPattern(20.0, 5000.0, 2, 2000.0)
@@ -32,5 +30,4 @@ object LevelDataFactory {
 
         return LevelData("TestStage", null, levelManager, screenManager, testEnemy, testPlayer, null)
     }
-
 }

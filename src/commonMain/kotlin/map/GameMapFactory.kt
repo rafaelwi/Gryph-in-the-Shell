@@ -1,6 +1,5 @@
 package map
 
-import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.image
@@ -34,7 +33,7 @@ object GameMapFactory {
 
     // https://bezkoder.com/kotlin-android-read-json-file-assets-gson/
     suspend fun readLevelData(filename : String) : String {
-        var levelDataContents : String
+        val levelDataContents : String
 
         levelDataContents = try {
             resourcesVfs[filename].readString()

@@ -19,7 +19,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
 
 
     suspend fun init() {
-        particleEmitterPos = Point(-20.0, -20.0)
+        particleEmitterPos = Point(-100.0, -100.0)
         particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
         particleEmitterView = particleEmitter(particleEmitter, particleEmitterPos)
         addFixedUpdater(60.timesPerSecond) {
@@ -36,7 +36,7 @@ class SwipeComponent(private val mouse: MouseEvents): Container() {
     }
 
     fun resetSwipe() {
-        particleEmitterPos.setTo(-20.0, -20.0)
+        particleEmitterPos.setTo(-100.0, -100.0)
     }
 
 }

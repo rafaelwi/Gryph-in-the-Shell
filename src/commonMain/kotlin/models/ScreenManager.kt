@@ -39,6 +39,7 @@ class ScreenManager(private val sceneView: Container, private val levelManager: 
                 Console.log("Complete shake")
                 screenShakeTimer = 0.seconds
                 levelManager!!.triggerIsHit()
+                sceneView.position(0, 0)
             }
         }
     }

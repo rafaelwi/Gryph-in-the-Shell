@@ -19,12 +19,12 @@ class LevelData(private val levelName: String,
                 @Transient
                 private val score: TimeSpan? = null,
                 @Transient
-                private val levelManager: LevelManager? = null,
+                private var levelManager: LevelManager? = null,
                 @Transient
-                private val screenManager: ScreenManager? = null,
+                private var screenManager: ScreenManager? = null,
                 private val currentEnemy: Enemy,
                 @Transient
-                private val currentPlayer: Player? = null,
+                private var currentPlayer: Player? = null,
                 private val levelBackground: LevelBackground?): Container() {
 
     @Transient
@@ -110,7 +110,7 @@ class LevelData(private val levelName: String,
     private fun checkGameStatus(dt: TimeSpan?) {
         if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
-            Console.log(levelManager.getScore())
+            Console.log(levelManager!!.getScore())
             this.addChild(gameOverMenu)
         }
     }
@@ -120,7 +120,7 @@ class LevelData(private val levelName: String,
     }
 
     private fun updateEnemyStatus(dt: TimeSpan?) {
-        levelMechanics.initiateAttack(dt);
+        levelMechanics.initiateAttack(dt)
     }
 
 
@@ -130,6 +130,22 @@ class LevelData(private val levelName: String,
 
     private fun stopAnimation(sprite: Sprite) {
         sprite.stopAnimation()
+    }
+
+    fun getLevelManager(): LevelManager? {
+        return this.levelManager
+    }
+
+    fun setLevelManager(levelManager: LevelManager?) {
+        this.levelManager = levelManager
+    }
+
+    fun setScreenManager(screenManager: ScreenManager?) {
+        this.screenManager = screenManager
+    }
+
+    fun setCurrentPlayer (currentPlayer: Player?) {
+        this.currentPlayer = currentPlayer
     }
 
     override fun toString(): String {
