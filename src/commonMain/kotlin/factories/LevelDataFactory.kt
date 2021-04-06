@@ -27,7 +27,8 @@ object LevelDataFactory {
         var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern, basicAttackPattern2, basicAttackPattern3))
         val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png", 41, 26, 2, 2, basicAttackMoveset)
         val testPlayer = Player("testPlayer", 100.0)
+        val testBackground = LevelBackground("first level", "background\\city.png")
 
-        return LevelData("TestStage", null, levelManager, screenManager, testEnemy, testPlayer, null)
+        return LevelData("TestStage", null, levelManager, screenManager, testEnemy, testPlayer, testBackground)
     }
 }
