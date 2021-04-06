@@ -1,9 +1,11 @@
 package models
 
 import com.soywiz.klock.TimeSpan
+import com.soywiz.klogger.Console
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
+import com.soywiz.korge.view.*
 import com.soywiz.korma.geom.Point
 import models.entities.Enemy
 import models.components.SwipeComponent
@@ -21,26 +23,29 @@ class LevelMechanics(private var levelData: LevelData,
     suspend fun init() {
         initSwipeMechanics()
         initAttackMoveset()
-        //initHoldMechanic()
+        initHoldMechanic()
     }
 
     private fun initAttackMoveset() {
         testPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
     }
 
-    //To be implemented
     private suspend fun initHoldMechanic() {
+        var nTouches: Int
 
-        /** levelData.mouse {
-            onDown {
+        levelData.addUpdaterWithViews { views, dt ->
+            nTouches = views.input.activeTouches.size
+
+            Console.log(nTouches)
+
+            if (nTouches == 2) {
+                Console.log("Multi")
                 testPlayer.nullify()
             }
-
-            onUpAnywhere {
+            else {
                 testPlayer.reactivate()
             }
-        } */
-
+        }
     }
 
     private suspend fun initSwipeMechanics() {
