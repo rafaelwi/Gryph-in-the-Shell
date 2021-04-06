@@ -1,12 +1,7 @@
 package models.gui
 
-import com.soywiz.klock.milliseconds
-import com.soywiz.klock.timesPerSecond
-import com.soywiz.klogger.Console
-import com.soywiz.korge.time.delay
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
-import com.soywiz.korma.geom.Anchor
 import models.LevelManager
 import models.entities.Enemy
 import models.entities.Player

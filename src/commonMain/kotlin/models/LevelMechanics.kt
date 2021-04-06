@@ -3,9 +3,7 @@ package models
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.view.Sprite
-import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.hitTest
-import com.soywiz.korge.view.views
 import com.soywiz.korma.geom.Point
 import models.entities.Enemy
 import models.components.SwipeComponent
@@ -49,7 +47,7 @@ class LevelMechanics(private var levelData: LevelData,
         var swipeHit = false
         var inDrag = false
         var dragPoint: Point? = null
-        var swipeGraphic = SwipeComponent(levelData.mouse)
+        var swipeGraphic = SwipeComponent(levelManager, levelData.mouse)
         var totalDamage = 0.0
 
         swipeGraphic.init()
@@ -60,7 +58,7 @@ class LevelMechanics(private var levelData: LevelData,
                 swipeGraphic.setSwipe(true)
                 swipeHit = false
                 dragPoint = it.currentPosStage
-                if (enemySprite.hitTest(dragPoint!!) != null) currentEnemy.reduceHealth(1.0)
+                if (enemySprite.hitTest(dragPoint!!) != null && levelManager?.getIsOngoing() == true) currentEnemy.reduceHealth(1.0)
             }
             onMoveAnywhere {
                 if (dragPoint != null) {
@@ -69,7 +67,7 @@ class LevelMechanics(private var levelData: LevelData,
                 }
             }
             onUpAnywhere {
-                if (inDrag && swipeHit) {
+                if (inDrag && swipeHit && levelManager?.getIsOngoing() == true) {
                     //Drag distance / Screen size -> Multiplier
                     //totalDamage = dragPoint?.distanceTo(it.downPosStage) ?: 0.0
                     //Console.log(totalDamage)
