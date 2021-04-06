@@ -3,8 +3,10 @@ package models
 import com.soywiz.klock.*
 import com.soywiz.klogger.Console
 import com.soywiz.korge.view.*
+import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
+import com.soywiz.korio.resources.resource
 import com.soywiz.korma.geom.Anchor
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -25,7 +27,7 @@ class LevelData(private val levelName: String,
                 private val currentEnemy: Enemy,
                 @Transient
                 private var currentPlayer: Player? = null,
-                private val levelBackground: LevelBackground?): Container() {
+                private val levelBackground: LevelBackground): Container() {
 
     @Transient
     private val deviceWidth: Int = MainModule.size.width
@@ -60,8 +62,8 @@ class LevelData(private val levelName: String,
         this.addChild(playerGui)
     }
 
-    fun initStage() {
-
+    suspend fun initStage() {
+        this.buildStage(levelBackground)
     }
 
     suspend fun initEnemy() {
@@ -86,6 +88,14 @@ class LevelData(private val levelName: String,
 
     private fun buildGameOverMenu(levelManager: LevelManager?): Container {
         return GameOverMenu(levelManager).position(deviceWidth * 0.5, deviceHeight * 0.3).scale(2.0, 2.0)
+    }
+
+    private suspend fun buildStage(levelBackground: LevelBackground): Image {
+        return image(resourcesVfs[levelBackground.getPngFileLoc()].readBitmap()) {
+            smoothing = false
+            tint = Colors.DARKGRAY
+            scale = 3.0
+        }
     }
 
     /** GUI */

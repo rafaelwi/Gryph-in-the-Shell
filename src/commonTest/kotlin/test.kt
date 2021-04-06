@@ -14,6 +14,7 @@ import kotlin.test.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import models.LevelData
+import models.ScreenManager
 import models.entities.*
 
 class MyTest : ViewsForTesting() {
@@ -38,6 +39,7 @@ class MyTest : ViewsForTesting() {
 		println("---------------------- Level Data Test ----------------------")
 		val testContainer = Container()
 		val testManager = LevelManager(testContainer, null)
+		val testScreenManager = ScreenManager(testContainer, testManager)
 		val testScore = TimeSpan(0.0)
 		val testPlayer = Player("test_player", 1.0)
 		var testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
@@ -45,7 +47,7 @@ class MyTest : ViewsForTesting() {
 		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0, testAttackMoveset)
 		val testBackground = LevelBackground("test_level", "fileLocation/testBackgroundFile")
 
-		val testLevelData = LevelDataFactory.createLevelTest(testManager, testScore, testEnemy, testPlayer, testBackground)
+		val testLevelData = LevelDataFactory.createLevelTest(testManager, testScreenManager, testScore, testEnemy, testPlayer, testBackground)
 
 		println(testLevelData.toString())
 	}

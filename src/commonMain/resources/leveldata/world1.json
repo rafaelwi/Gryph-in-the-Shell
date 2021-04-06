@@ -29,7 +29,7 @@
         },
         "levelBackground": {
           "name": "First Level Background",
-          "spriteFile": "battle\\first_level.png"
+          "pngFileLoc": "background\\city.png"
         }
       }
     }
