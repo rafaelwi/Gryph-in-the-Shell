@@ -14,24 +14,23 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
     private lateinit var randomAttackPattern: AttackPattern
     private lateinit var randomAttackPatternPlayer: AttackPatternPlayer
     private var lastPatternTimestamp: TimeSpan
-    private var lastPatternDamage: Double
+    private var initPatternDamage: Double
 
     init {
         playing = false
         lastPatternTimestamp = 0.milliseconds
         index = initRandIndex()
         initPattern(index)
-        lastPatternDamage = randomAttackPattern.getDamage()
+        initPatternDamage = randomAttackPattern.getDamage()
         initPatternPlayer(index)
     }
 
     fun nullify() {
-        lastPatternDamage = randomAttackPattern.getDamage()
         randomAttackPattern.setDamage(0.0)
     }
 
     fun reactivate() {
-        randomAttackPattern.setDamage(lastPatternDamage)
+        randomAttackPattern.setDamage(initPatternDamage)
     }
 
     fun initRandIndex(): Int {
@@ -40,6 +39,7 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
 
     fun initPattern(index: Int) {
         randomAttackPattern = attackMoveset.getAttackPatterns()[index]
+        initPatternDamage = randomAttackPattern.getDamage()
     }
 
     fun initPatternPlayer(index: Int) {
@@ -58,9 +58,11 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
             }
         } else {
             index = initRandIndex()
+            this.reactivate()
             initPattern(index)
             initPatternPlayer(index)
             playing = true
+            if (levelManager!!.getIsDefending()) this.nullify()
         }
     }
 

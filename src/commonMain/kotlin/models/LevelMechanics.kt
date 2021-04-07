@@ -1,9 +1,11 @@
 package models
 
 import com.soywiz.klock.TimeSpan
-import com.soywiz.korge.input.mouse
+import com.soywiz.klogger.Console
+import com.soywiz.korge.input.*
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
+import com.soywiz.korge.view.*
 import com.soywiz.korma.geom.Point
 import models.entities.Enemy
 import models.components.SwipeComponent
@@ -16,31 +18,37 @@ class LevelMechanics(private var levelData: LevelData,
                      private var currentEnemy: Enemy,
                      private var currentPlayer: Player?) {
 
-    private lateinit var testPlayer: AttackMovesetPlayer
+    private lateinit var enemyMovesetPlayer: AttackMovesetPlayer
 
     suspend fun init() {
         initSwipeMechanics()
         initAttackMoveset()
-        //initHoldMechanic()
+        initHoldMechanic()
     }
 
     private fun initAttackMoveset() {
-        testPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
+        enemyMovesetPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
     }
 
-    //To be implemented
-    private suspend fun initHoldMechanic() {
-
-        /** levelData.mouse {
-            onDown {
-                testPlayer.nullify()
+    private fun initHoldMechanic() {
+        levelData.touch {
+            scaleRecognizer {
+                //Initializes as recognized somehow?
+                if (levelManager?.getIsOngoing() == true) {
+                    enemyMovesetPlayer.nullify()
+                    levelManager!!.setIsDefending(true)
+                }
             }
+        }
 
+        levelData.addUpdater {
             onUpAnywhere {
-                testPlayer.reactivate()
+                if (levelManager?.getIsOngoing() == true) {
+                    enemyMovesetPlayer.reactivate()
+                    levelManager!!.setIsDefending(false)
+                }
             }
-        } */
-
+        }
     }
 
     private suspend fun initSwipeMechanics() {
@@ -86,7 +94,7 @@ class LevelMechanics(private var levelData: LevelData,
     }
 
     fun initiateAttack(dt: TimeSpan?) {
-        testPlayer.playMoveset()
+        enemyMovesetPlayer.playMoveset()
     }
 
 }
