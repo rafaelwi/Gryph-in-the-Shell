@@ -2,7 +2,7 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klogger.Console
-import com.soywiz.korge.input.mouse
+import com.soywiz.korge.input.*
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.hitTest
 import com.soywiz.korge.view.*
@@ -18,7 +18,7 @@ class LevelMechanics(private var levelData: LevelData,
                      private var currentEnemy: Enemy,
                      private var currentPlayer: Player?) {
 
-    private lateinit var testPlayer: AttackMovesetPlayer
+    private lateinit var enemyMovesetPlayer: AttackMovesetPlayer
 
     suspend fun init() {
         initSwipeMechanics()
@@ -27,23 +27,19 @@ class LevelMechanics(private var levelData: LevelData,
     }
 
     private fun initAttackMoveset() {
-        testPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
+        enemyMovesetPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
     }
 
-    private suspend fun initHoldMechanic() {
-        var nTouches: Int
-
-        levelData.addUpdaterWithViews { views, dt ->
-            nTouches = views.input.activeTouches.size
-
-            Console.log(nTouches)
-
-            if (nTouches == 2) {
-                Console.log("Multi")
-                testPlayer.nullify()
+    private fun initHoldMechanic() {
+        levelData.touch {
+            scaleRecognizer {
+                enemyMovesetPlayer.nullify()
             }
-            else {
-                testPlayer.reactivate()
+        }
+
+        levelData.addUpdater {
+            onUpAnywhere {
+                enemyMovesetPlayer.reactivate()
             }
         }
     }
@@ -91,7 +87,7 @@ class LevelMechanics(private var levelData: LevelData,
     }
 
     fun initiateAttack(dt: TimeSpan?) {
-        testPlayer.playMoveset()
+        enemyMovesetPlayer.playMoveset()
     }
 
 }
