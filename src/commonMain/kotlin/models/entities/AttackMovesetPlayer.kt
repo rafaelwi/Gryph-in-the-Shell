@@ -39,6 +39,7 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
 
     fun initPattern(index: Int) {
         randomAttackPattern = attackMoveset.getAttackPatterns()[index]
+        initPatternDamage = randomAttackPattern.getDamage()
     }
 
     fun initPatternPlayer(index: Int) {
@@ -57,9 +58,11 @@ class AttackMovesetPlayer(private var attackMoveset: AttackMoveset,
             }
         } else {
             index = initRandIndex()
+            this.reactivate()
             initPattern(index)
             initPatternPlayer(index)
             playing = true
+            if (levelManager!!.getIsDefending()) this.nullify()
         }
     }
 

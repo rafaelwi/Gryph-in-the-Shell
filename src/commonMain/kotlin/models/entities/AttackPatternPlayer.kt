@@ -36,7 +36,7 @@ class AttackPatternPlayer(private var attackPattern: AttackPattern,
     fun applyAttack() {
         levelManager!!.triggerIsHit()
         currentPlayer?.reduceHealth(attackPattern.getDamage())
-        Console.log("Attack ${currentCycles}")
+        Console.log("Attack ${currentCycles} of ${attackPattern.getDamage()}")
         this.decrementCycle()
     }
 

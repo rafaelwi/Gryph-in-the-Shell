@@ -33,13 +33,20 @@ class LevelMechanics(private var levelData: LevelData,
     private fun initHoldMechanic() {
         levelData.touch {
             scaleRecognizer {
-                enemyMovesetPlayer.nullify()
+                //Initializes as recognized somehow?
+                if (levelManager?.getIsOngoing() == true) {
+                    enemyMovesetPlayer.nullify()
+                    levelManager!!.setIsDefending(true)
+                }
             }
         }
 
         levelData.addUpdater {
             onUpAnywhere {
-                enemyMovesetPlayer.reactivate()
+                if (levelManager?.getIsOngoing() == true) {
+                    enemyMovesetPlayer.reactivate()
+                    levelManager!!.setIsDefending(false)
+                }
             }
         }
     }

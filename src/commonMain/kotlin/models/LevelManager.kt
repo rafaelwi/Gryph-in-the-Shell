@@ -11,10 +11,12 @@ class LevelManager(private val mainScreen : Container, val sceneContainer: Scene
     private var battleStatus: LevelStatus
     private var levelTimer: LevelTimer
     private var isHit: Boolean
+    private var isDefending: Boolean
 
     init {
         isOngoing = false
         isHit = false
+        isDefending = false
         battleStatus = LevelStatus.NOT_STARTED
         levelTimer = LevelTimer()
     }
@@ -35,6 +37,10 @@ class LevelManager(private val mainScreen : Container, val sceneContainer: Scene
         isHit = !isHit
     }
 
+    fun setIsDefending(isDefendingBool: Boolean) {
+        isDefending = isDefendingBool
+    }
+
     fun getIsOngoing(): Boolean {
         return isOngoing
     }
@@ -49,6 +55,10 @@ class LevelManager(private val mainScreen : Container, val sceneContainer: Scene
 
     fun getIsHit(): Boolean {
         return isHit
+    }
+
+    fun getIsDefending(): Boolean {
+        return isDefending
     }
 
     override fun toString(): String {
