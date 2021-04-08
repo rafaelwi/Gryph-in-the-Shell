@@ -60,6 +60,7 @@ class LevelData(private val levelName: String,
             this.updateEnemyStatus(score)
             this.checkScreenStatus()
         }
+
     }
 
     fun initGui() {
@@ -135,10 +136,6 @@ class LevelData(private val levelName: String,
 
     private fun updateEnemyStatus(dt: TimeSpan?) {
         levelMechanics.initiateAttack(dt)
-    }
-
-    private suspend fun writeScore(time: Double) {
-        LevelScore(1, 1, time).writeLevelScore("savedata\\save.json")
     }
 
     private fun startAnimation(sprite: Sprite) {

@@ -1,5 +1,6 @@
 package scenes
 
+import com.soywiz.klogger.Console
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korim.text.TextAlignment

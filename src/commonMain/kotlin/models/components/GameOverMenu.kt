@@ -6,6 +6,8 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
 import models.LevelManager
+import models.entities.LevelScore
+import models.entities.LevelScoreWriter
 import scenes.MapScene
 
 class GameOverMenu(private val levelManager: LevelManager?): Container() {
@@ -32,6 +34,7 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
             }
 
             onClick {
+                LevelScoreWriter(levelManager, 1, 1).writeScoreToFile()
                 levelManager?.sceneContainer?.changeTo(MapScene::class)
             }
         }
@@ -42,5 +45,4 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
         addChild(menuText)
         addChild(exitButton)
     }
-
 }

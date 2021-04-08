@@ -2,12 +2,60 @@ package models.entities
 
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korio.lang.IOException
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.element
+import kotlinx.serialization.encoding.*
 
-@Serializable
+@Serializable(with = LevelScore.LevelScoreSerializer::class)
 class LevelScore(private var world: Int,
                  private var level: Int,
                  private var time: Double) {
+
+    object LevelScoreSerializer : KSerializer<LevelScore> {
+        override val descriptor: SerialDescriptor = buildClassSerialDescriptor("LevelScore") {
+            element<Int>("world")
+            element<Int>("level")
+            element<Double>("time")
+        }
+
+        override fun serialize(encoder: Encoder, value: LevelScore) {
+            encoder.encodeStructure(descriptor) {
+                encodeIntElement(descriptor, 0, value.getWorld())
+                encodeIntElement(descriptor, 1, value.getLevel())
+                encodeDoubleElement(descriptor, 2, value.getScore())
+            }
+        }
+
+        override fun deserialize(decoder: Decoder): LevelScore {
+            return decoder.decodeStructure(descriptor) {
+                var world: Int? = null
+                var level: Int? = null
+                var time: Double? = null
+
+                loop@ while (true) {
+                    when (val index = decodeElementIndex(descriptor)) {
+                        CompositeDecoder.DECODE_DONE -> break@loop
+
+                        0 -> world = decodeIntElement(descriptor, 0)
+                        1 -> level = decodeIntElement(descriptor, 1)
+                        2 -> time = decodeDoubleElement(descriptor, 2)
+
+                        else -> throw SerializationException("Unexpected index $index")
+                    }
+                }
+
+                LevelScore(
+                        requireNotNull(world),
+                        requireNotNull(level),
+                        requireNotNull(time)
+                )
+            }
+        }
+    }
 
     fun setScore(newTime: Double) {
         time = newTime
@@ -23,17 +71,6 @@ class LevelScore(private var world: Int,
 
     fun getWorld(): Int {
         return world
-    }
-
-    suspend fun writeLevelScore(fileloc : String) {
-        val levelScoreContents : String = this.toString()
-
-        try {
-            resourcesVfs[fileloc].writeString(levelScoreContents)
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            null.toString()
-        }
     }
 
 }
