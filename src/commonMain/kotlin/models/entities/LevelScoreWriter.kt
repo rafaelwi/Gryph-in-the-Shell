@@ -76,6 +76,10 @@ class LevelScoreWriter(private val levelManager: LevelManager?,
         try {
             Console.log("writing")
             //Create/write file
+            applicationDataVfs.mkdir()
+            Console.log("mkdir")
+            applicationDataVfs[fileLoc].openInputStream()
+            Console.log("opened")
             applicationDataVfs[fileLoc].writeString(Json{isLenient = true}.encodeToString<LevelScoreRecord>(newFileArray))
             Console.log("write success")
         } catch (fnfException: FileNotFoundException) {
