@@ -8,13 +8,18 @@ import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korio.resources.resource
 import com.soywiz.korma.geom.Anchor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import models.entities.Enemy
 import models.entities.Player
 import models.components.GameOverMenu
+import models.entities.LevelScore
 import models.gui.LevelBackground
 import models.gui.PlayerGui
+import kotlin.coroutines.coroutineContext
 
 @Serializable
 class LevelData(private val levelName: String,
@@ -55,6 +60,7 @@ class LevelData(private val levelName: String,
             this.updateEnemyStatus(score)
             this.checkScreenStatus()
         }
+
     }
 
     fun initGui() {
@@ -120,7 +126,6 @@ class LevelData(private val levelName: String,
     private fun checkGameStatus(dt: TimeSpan?) {
         if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
-            Console.log(levelManager!!.getScore())
             this.addChild(gameOverMenu)
         }
     }
@@ -132,7 +137,6 @@ class LevelData(private val levelName: String,
     private fun updateEnemyStatus(dt: TimeSpan?) {
         levelMechanics.initiateAttack(dt)
     }
-
 
     private fun startAnimation(sprite: Sprite) {
         sprite.playAnimationLooped(spriteDisplayTime = 150.milliseconds)
