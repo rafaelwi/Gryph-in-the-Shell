@@ -1,7 +1,5 @@
 package models.entities
 
-import com.soywiz.korio.file.std.resourcesVfs
-import com.soywiz.korio.lang.IOException
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -73,4 +71,7 @@ class LevelScore(private var world: Int,
         return world
     }
 
+    override fun toString(): String {
+        return "World: $world, Level: $level, Score: $time"
+    }
 }

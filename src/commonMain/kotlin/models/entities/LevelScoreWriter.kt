@@ -1,13 +1,7 @@
 package models.entities
 
 import com.soywiz.klogger.Console
-import com.soywiz.korge.service.storage.NativeStorage
-import com.soywiz.korio.file.Vfs
-import com.soywiz.korio.file.VfsFile
-import com.soywiz.korio.file.VfsOpenMode
-import com.soywiz.korio.file.std.applicationDataVfs
-import com.soywiz.korio.file.std.resourcesVfs
-import com.soywiz.korio.file.useVfs
+import com.soywiz.korio.file.std.localVfs
 import com.soywiz.korio.lang.FileNotFoundException
 import com.soywiz.korio.lang.IOException
 import kotlinx.serialization.decodeFromString
@@ -15,20 +9,10 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.LevelManager
 
-class LevelScoreWriter(private val levelManager: LevelManager?,
-                       worldInt: Int,
-                       levelInt: Int) {
-
-    private var scoreToRecord: LevelScore
-    private var fileLoc: String = "savedata\\save.json"
-
-    init {
-        scoreToRecord = LevelScore(worldInt, levelInt, levelManager!!.getScore())
-    }
-
-    fun setFileLoc(newFileLoc: String) {
-        fileLoc = newFileLoc
-    }
+class LevelScoreWriter(private val levelManager: LevelManager?, worldInt: Int, levelInt: Int) {
+    private var scoreToRecord: LevelScore = LevelScore(worldInt, levelInt, levelManager!!.getScore())
+    private val filename = "save.json"
+    private val filepath : String = "data\\data\\cis4030.gis.gis"
 
     suspend fun writeScoreToFile() {
         if (!levelManager!!.getIsOngoing()) {
@@ -36,58 +20,38 @@ class LevelScoreWriter(private val levelManager: LevelManager?,
         }
     }
 
-    suspend fun readLevelScore(): String? {
-        val saveContents: String?
-        val file: VfsFile = applicationDataVfs[fileLoc]
+    private suspend fun writeLevelScore() {
+        // Check if save file exists, if so then check if score is better or worse. If score is worse, overwrite
+        if (localVfs(filepath)[filename].exists()) {
+            // Read old save data file
+            val rawSaveData = localVfs(filepath)[filename].readString()
+            val saveData = Json.decodeFromString<LevelScoreRecord>(rawSaveData)
 
-        saveContents = try {
-            file.readString()
-        } catch (fnfException: FileNotFoundException) {
-            null
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            null
+            // Get the current level's save data
+            val world = scoreToRecord.getWorld()
+            val level = scoreToRecord.getLevel()
+            val oldRecord = saveData.getScore(world, level)
+
+            // Compare scores
+            if (oldRecord.getScore() > scoreToRecord.getScore()) {
+                saveData.replaceScore(scoreToRecord)
+                writeData(Json.encodeToString(saveData))
+            }
+        } else {
+            // If file doesn't exist, write to new file
+            val newSave = LevelScoreRecord(arrayOf(scoreToRecord))
+            writeData(Json.encodeToString(newSave))
         }
-        return saveContents
     }
 
-    suspend fun writeLevelScore() {
-        val levelScoreContents: String = Json{isLenient = true}.encodeToString(LevelScore.serializer(), scoreToRecord)
-        val originalFileArray: LevelScoreRecord
-        val originalFileContent: String? = readLevelScore()
-        var newFileArray: LevelScoreRecord
-        var oldScoreIndex: Int? = null
-
-        if (originalFileContent != null) {
-            Console.log("found")
-            originalFileArray = Json{isLenient = true}.decodeFromString<LevelScoreRecord>(originalFileContent)
-            newFileArray = originalFileArray
-            oldScoreIndex = newFileArray.findScoreIndex(scoreToRecord.getWorld(), scoreToRecord.getLevel())
-            Console.log(levelScoreContents)
-            Console.log(readLevelScore())
-        } else {
-            Console.log("notFound")
-            newFileArray = LevelScoreRecord(arrayOf<LevelScore>())
-        }
-
-        if (oldScoreIndex != null) newFileArray!!.removeScore(oldScoreIndex)
-        newFileArray.addScore(scoreToRecord)
-
+    private suspend fun writeData(data : String) {
         try {
-            Console.log("writing")
-            //Create/write file
-            applicationDataVfs.mkdir()
-            Console.log("mkdir")
-            applicationDataVfs[fileLoc].openInputStream()
-            Console.log("opened")
-            applicationDataVfs[fileLoc].writeString(Json{isLenient = true}.encodeToString<LevelScoreRecord>(newFileArray))
-            Console.log("write success")
+            localVfs(filepath)[filename].writeString(data)
         } catch (fnfException: FileNotFoundException) {
-            Console.log("can't access fileloc")
+            Console.log("Can't access $filename")
             fnfException.printStackTrace()
         } catch (ioException: IOException) {
             ioException.printStackTrace()
         }
     }
-
 }
