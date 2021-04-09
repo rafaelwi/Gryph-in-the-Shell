@@ -23,11 +23,12 @@ object GameMapFactory {
     suspend fun createGameMap(c : Container, sc : SceneContainer, filename : String){
         val fileContents = readLevelData(filename)
         val gameMap = Json{isLenient = true}.decodeFromString<GameMap>(fileContents)
+        val world = gameMap.world
 
         drawGameMap(c, sc, gameMap.backgroundPath.toString())
 
         for (p in gameMap.levels) {
-            PlacemarkerFactory.createPlacemarker(c, sc, p)
+            PlacemarkerFactory.createPlacemarker(c, sc, p, world)
         }
     }
 
