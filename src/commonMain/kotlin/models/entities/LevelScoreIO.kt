@@ -9,12 +9,26 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.LevelManager
 
-class LevelScoreWriter(private val levelManager: LevelManager?, worldInt: Int, levelInt: Int) {
-    private var scoreToRecord: LevelScore = LevelScore(worldInt, levelInt, levelManager!!.getScore())
+class LevelScoreIO(private val worldInt: Int, private val levelInt: Int) {
+    private lateinit var scoreToRecord: LevelScore
     private val filename = "save.json"
     private val filepath : String = "data\\data\\cis4030.gis.gis"
 
-    suspend fun writeScoreToFile() {
+    fun initScoreToRecord(levelManager: LevelManager?) {
+        scoreToRecord = LevelScore(worldInt, levelInt, levelManager!!.getScore())
+    }
+
+    suspend fun readLevelScore(): LevelScore? {
+        if (localVfs(filepath)[filename].exists()) {
+            val rawSaveData = localVfs(filepath)[filename].readString()
+            val saveData = Json.decodeFromString<LevelScoreRecord>(rawSaveData)
+
+            return saveData.getScore(worldInt, levelInt)
+        }
+        return null
+    }
+
+    suspend fun writeScoreToFile(levelManager: LevelManager?) {
         if (!levelManager!!.getIsOngoing()) {
             writeLevelScore()
         }

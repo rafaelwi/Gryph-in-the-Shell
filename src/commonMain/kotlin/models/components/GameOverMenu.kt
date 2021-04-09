@@ -6,12 +6,12 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
 import models.LevelManager
-import models.entities.LevelScore
-import models.entities.LevelScoreWriter
+import models.entities.LevelScoreIO
 import scenes.MapScene
 
 class GameOverMenu(private val levelManager: LevelManager?): Container() {
 
+    private lateinit var levelScoreIo: LevelScoreIO
     private var backGround: SolidRect = solidRect(300, 150, Colors.WHITE) {
         anchor(Anchor.MIDDLE_CENTER)
     }
@@ -34,7 +34,9 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
             }
 
             onClick {
-                LevelScoreWriter(levelManager, 1, 1).writeScoreToFile()
+                levelScoreIo = LevelScoreIO(1, 1)
+                levelScoreIo.initScoreToRecord(levelManager)
+                levelScoreIo.writeScoreToFile(levelManager)
                 levelManager?.sceneContainer?.changeTo(MapScene::class)
             }
         }
