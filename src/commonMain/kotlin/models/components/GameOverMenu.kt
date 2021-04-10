@@ -7,6 +7,7 @@ import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
 import models.LevelManager
 import models.entities.LevelScoreIO
+import scenes.GryphScene
 import scenes.MapScene
 
 class GameOverMenu(private val levelManager: LevelManager?): Container() {
@@ -37,7 +38,7 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
                 levelScoreIo = LevelScoreIO(1, 1)
                 levelScoreIo.initScoreToRecord(levelManager)
                 levelScoreIo.writeScoreToFile(levelManager)
-                levelManager?.sceneContainer?.changeTo(MapScene::class)
+                levelManager?.sceneContainer?.changeTo(GryphScene::class)
             }
         }
     }

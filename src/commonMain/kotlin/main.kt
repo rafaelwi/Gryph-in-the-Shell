@@ -6,13 +6,7 @@ import com.soywiz.korim.color.RGBA
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.ScaleMode
 import com.soywiz.korma.geom.SizeInt
-import constants.DebugStatus
-import factories.LevelDataFactory
-import models.LevelData
-import scenes.LevelScene
-import scenes.MapScene
-import scenes.SettingsScene
-import scenes.TitleScene
+import scenes.*
 import kotlin.reflect.KClass
 
 suspend fun main() = Korge(Korge.Config(module = MainModule))
@@ -34,5 +28,7 @@ object MainModule : Module() {
         mapPrototype { MapScene() }
         mapPrototype { SettingsScene() }
         mapPrototype { TitleScene() }
+        mapPrototype { IntroScene() }
+        mapPrototype { GryphScene() }
     }
 }

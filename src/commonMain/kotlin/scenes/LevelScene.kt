@@ -1,12 +1,14 @@
 package scenes
 
-import com.soywiz.klogger.Console
+import MainModule
 import com.soywiz.korge.scene.Scene
-import com.soywiz.korge.view.*
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.position
+import com.soywiz.korge.view.text
 import com.soywiz.korim.text.TextAlignment
 import constants.DebugStatus
-import models.ScreenManager
 import models.LevelData
+import models.ScreenManager
 
 class LevelScene (val levelData: LevelData) : Scene() {
     var DEBUG_STAT = DebugStatus.OFF

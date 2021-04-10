@@ -1,7 +1,10 @@
 package scenes
 
+import com.soywiz.klock.seconds
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.scene.Scene
+import com.soywiz.korge.tween.get
+import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
@@ -19,11 +22,21 @@ class MapScene : Scene() {
     val deviceWidth : Int = MainModule.size.width
     val deviceHeight : Int = MainModule.size.height
 
+    lateinit var transitionShade : SolidRect
     val SETTINGS_ICON = resourcesVfs["map\\settings_menu.png"]
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
         GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
+        transitionShade = solidRect(deviceWidth, deviceHeight, Colors.BLACK) {
+            anchor(Anchor.TOP_LEFT)
+            position(0, 0)
+        }
+    }
+
+    override suspend fun sceneAfterInit() {
+        transitionShade.tween(transitionShade::alpha[0.0], time = 2.seconds)
+        transitionShade.size(0, 0)
     }
 
     @Deprecated("Don't use this")
