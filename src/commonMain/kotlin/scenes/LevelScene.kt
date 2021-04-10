@@ -10,12 +10,12 @@ import constants.DebugStatus
 import models.LevelData
 import models.ScreenManager
 
+/** Scene where main gameplay happens **/
 class LevelScene (val levelData: LevelData) : Scene() {
-    var DEBUG_STAT = DebugStatus.OFF
-    val deviceWidth : Int = MainModule.size.width
-    val deviceHeight : Int = MainModule.size.height
+    private var DEBUG_STAT = DebugStatus.OFF
+    private val deviceWidth : Int = MainModule.size.width
 
-    // Entrypoint
+    /** Initialize scene **/
     override suspend fun Container.sceneInit() {
         levelData.setScreenManager(ScreenManager(sceneView, levelData.getLevelManager()))
         addChild(levelData)

@@ -1,5 +1,6 @@
 package scenes
 
+import MainModule
 import com.soywiz.klock.seconds
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.scene.Scene
@@ -8,15 +9,10 @@ import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
-import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import map.GameMap
 import map.GameMapFactory
-import models.entities.Enemy
 
 class MapScene : Scene() {
     val deviceWidth : Int = MainModule.size.width
@@ -25,7 +21,7 @@ class MapScene : Scene() {
     lateinit var transitionShade : SolidRect
     val SETTINGS_ICON = resourcesVfs["map\\settings_menu.png"]
 
-    // Entrypoint
+    /** Initialize scene **/
     override suspend fun Container.sceneInit() {
         GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
         transitionShade = solidRect(deviceWidth, deviceHeight, Colors.BLACK) {
@@ -34,12 +30,14 @@ class MapScene : Scene() {
         }
     }
 
+    /** Fade from black on entering scene **/
     override suspend fun sceneAfterInit() {
         transitionShade.tween(transitionShade::alpha[0.0], time = 2.seconds)
         transitionShade.size(0, 0)
     }
 
-    @Deprecated("Don't use this")
+    /** Test function for drawing game map **/
+    @Deprecated("Test function: Don't use this")
     private suspend fun drawGameMap(gameMap : GameMap, c: Container){
         // Draw the game map
         // For the atlas/tiling background: https://github.com/korlibs/korge-samples/tree/master/samples/atlas

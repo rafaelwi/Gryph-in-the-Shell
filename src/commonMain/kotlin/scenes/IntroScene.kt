@@ -14,6 +14,7 @@ import com.soywiz.korma.geom.Anchor
 import com.soywiz.korma.interpolation.Easing
 import constants.DebugStatus
 
+/** Scene played when app is launched **/
 class IntroScene : Scene() {
     private var PLAY_ANIMATIONS = DebugStatus.ON
 
@@ -28,7 +29,7 @@ class IntroScene : Scene() {
 
     private val deviceWidth = MainModule.size.width
 
-    // Declare all images and shapes used here
+    /** Initialize resources **/
     override suspend fun Container.sceneInit() {
         skyline = image(resourcesVfs["intro\\neoguelph_skyline.png"].readBitmap()) {
             anchor(Anchor.TOP_LEFT)
@@ -68,7 +69,7 @@ class IntroScene : Scene() {
         }
     }
 
-    // Do animations here
+    /** Animations **/
     override suspend fun sceneAfterInit() {
         if (PLAY_ANIMATIONS == DebugStatus.ON) {
             skyline.alpha = 0.0

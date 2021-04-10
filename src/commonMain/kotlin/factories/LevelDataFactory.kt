@@ -17,14 +17,15 @@ object LevelDataFactory {
      * This is just a placeholder as is.
      */
     fun createLevelTest(levelManager: LevelManager, screenManager: ScreenManager, playerScore: TimeSpan?, enemy: Enemy, player: Player, background: LevelBackground): LevelData {
-        return LevelData("testName", playerScore, levelManager, screenManager, enemy, player, background);
+        return LevelData("testName", playerScore, levelManager, screenManager, enemy, player, background)
     }
 
-    fun createTestLevel(levelManager: LevelManager, screenManager: ScreenManager): LevelData {
-        var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-        var basicAttackPattern2 = AttackPattern(2.0, 5000.0, 6, 100.0)
-        var basicAttackPattern3 = AttackPattern(20.0, 5000.0, 2, 2000.0)
-        var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern, basicAttackPattern2, basicAttackPattern3))
+    /** Creates an advanced test level with attack patterns **/
+    fun createAdvancedLevelTest(levelManager: LevelManager, screenManager: ScreenManager): LevelData {
+        val basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+        val basicAttackPattern2 = AttackPattern(2.0, 5000.0, 6, 100.0)
+        val basicAttackPattern3 = AttackPattern(20.0, 5000.0, 2, 2000.0)
+        val basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern, basicAttackPattern2, basicAttackPattern3))
         val testEnemy = Enemy("testEnemy", 100.0, "clawbot\\1\\spritesheet.png", 41, 26, 2, 2, basicAttackMoveset)
         val testPlayer = Player("testPlayer", 100.0)
         val testBackground = LevelBackground("first level", "background\\city.png")

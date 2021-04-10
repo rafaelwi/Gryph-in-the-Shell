@@ -11,12 +11,14 @@ import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Anchor
 
+/** Screen after completing level **/
 class GryphScene : Scene() {
     private lateinit var mgryphGlow : Image
     private lateinit var rage : Image
 
     private val deviceWidth = MainModule.size.width
 
+    /** Initialize resources **/
     override suspend fun Container.sceneInit() {
         mgryphGlow = image(resourcesVfs["intro\\mgryph_glow.png"].readBitmap()) {
             anchor(Anchor.TOP_LEFT)
@@ -30,6 +32,7 @@ class GryphScene : Scene() {
         }
     }
 
+    /** Animations **/
     override suspend fun sceneAfterInit() {
         mgryphGlow.alpha = 0.0
         rage.alpha = 0.0

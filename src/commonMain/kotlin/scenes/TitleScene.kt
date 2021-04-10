@@ -16,6 +16,7 @@ import com.soywiz.korma.geom.Anchor
 import com.soywiz.korma.interpolation.Easing
 import constants.DebugStatus
 
+/** Scene for the title screen **/
 class TitleScene : Scene() {
     private var PLAY_ANIMATIONS = DebugStatus.ON // Turn off if animations are annoying during other testing
     private lateinit var title : Image
@@ -23,7 +24,7 @@ class TitleScene : Scene() {
     private lateinit var start : Image
     private lateinit var byline : Text
 
-    // Entrypoint
+    /** Scene initialization **/
     override suspend fun Container.sceneInit() {
         bg = image(resourcesVfs["title\\title_bg.png"].readBitmap()) {
             setSize(this.width, MainModule.size.height / 1.0)
@@ -53,6 +54,7 @@ class TitleScene : Scene() {
         }
     }
 
+    /** Animations **/
     override suspend fun sceneAfterInit() {
         if (PLAY_ANIMATIONS == DebugStatus.ON) {
             title.alpha = 0.0
@@ -73,6 +75,7 @@ class TitleScene : Scene() {
         }
     }
 
+    /** Fade away animations when user taps play **/
     private suspend fun startOnClickAnimation() {
         if (PLAY_ANIMATIONS == DebugStatus.ON) {
             launchImmediately { byline.tween(byline::alpha[0.0], time = 1.seconds) }
