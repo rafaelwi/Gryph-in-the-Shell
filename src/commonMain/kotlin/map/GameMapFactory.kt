@@ -14,29 +14,29 @@ object GameMapFactory {
     private val deviceWidth : Int = MainModule.size.width
     private val deviceHeight : Int = MainModule.size.height
 
+    /** Creates a game map to test with **/
     fun createTestGameMap(levelData: LevelData?) : GameMap {
         val list = listOf(
                 PlacemarkerFactory.createTestPlacemarker(levelData, MainModule.size.width / 2, MainModule.size.height / 2))
         return GameMap(1, "map\\grass.png", list)
     }
 
+    /** Reads json file and creates a map fromm it */
     suspend fun createGameMap(c : Container, sc : SceneContainer, filename : String){
         val fileContents = readLevelData(filename)
         val gameMap = Json{isLenient = true}.decodeFromString<GameMap>(fileContents)
         val world = gameMap.world
 
-        drawGameMap(c, sc, gameMap.backgroundPath.toString())
+        drawGameMap(c, gameMap.backgroundPath.toString())
 
         for (p in gameMap.levels) {
             PlacemarkerFactory.createPlacemarker(c, sc, p, world)
         }
     }
 
-    // https://bezkoder.com/kotlin-android-read-json-file-assets-gson/
-    suspend fun readLevelData(filename : String) : String {
-        val levelDataContents : String
-
-        levelDataContents = try {
+    /* Reads json from res/leveldata/ */
+    private suspend fun readLevelData(filename : String) : String {
+        val levelDataContents : String = try {
             resourcesVfs[filename].readString()
         }
         catch (ioException: IOException) {
@@ -46,7 +46,7 @@ object GameMapFactory {
         return levelDataContents
     }
 
-    private suspend fun drawGameMap(c : Container, sc : SceneContainer, bgPath : String) {
+    private suspend fun drawGameMap(c: Container, bgPath: String) {
         // For the atlas/tiling background: https://github.com/korlibs/korge-samples/tree/master/samples/atlas
         c.image(resourcesVfs[bgPath].readBitmap()) {
             setSizeScaled(deviceWidth * 1.0, deviceHeight * 1.0)

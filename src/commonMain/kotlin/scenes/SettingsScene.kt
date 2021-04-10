@@ -7,8 +7,9 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korma.geom.Anchor
 
+/** Scene for settings screen **/
 class SettingsScene : Scene() {
-    // Entrypoint
+    /** Scene initialization **/
     override suspend fun Container.sceneInit() {
         text("Settings Menu", textSize = 100.0, alignment = TextAlignment.TOP_CENTER) {
             position(MainModule.size.width / 2.0, 0.0)

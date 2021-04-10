@@ -1,5 +1,4 @@
 package models.entities
 
-class Player(name: String, maxHealth: Double): PlayerEntity(name, maxHealth) {
-
-}
+/** Holds player's name and health **/
+class Player(name: String, maxHealth: Double): PlayerEntity(name, maxHealth)

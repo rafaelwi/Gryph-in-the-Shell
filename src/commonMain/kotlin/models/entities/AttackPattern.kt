@@ -13,12 +13,13 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
+/** Holds data for attack patterns **/
 @Serializable(with = AttackPattern.AttackPatternSerializer::class)
 class AttackPattern(private var attackDamage: Double,
                     private var timeUntilInitiate: Double,
                     private var totalCycles: Int,
                     private var timeBetweenCycles: Double) {
-
+    /** Serializes/deserializes object into JSON **/
     object AttackPatternSerializer : KSerializer<AttackPattern> {
         override val descriptor: SerialDescriptor = buildClassSerialDescriptor("AttackPattern") {
             element<Double>("attackDamage")
@@ -66,6 +67,7 @@ class AttackPattern(private var attackDamage: Double,
         }
     }
 
+    /** Getters and setters **/
     fun getTimeUntilInitiate(): TimeSpan {
         return TimeSpan(timeUntilInitiate)
     }

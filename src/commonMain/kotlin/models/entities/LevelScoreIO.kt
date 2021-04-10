@@ -9,6 +9,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.LevelManager
 
+/** Reads/writes the score from internal storage **/
 class LevelScoreIO(private val worldInt: Int, private val levelInt: Int) {
     private lateinit var scoreToRecord: LevelScore
     private val filename = "save.json"
@@ -58,6 +59,7 @@ class LevelScoreIO(private val worldInt: Int, private val levelInt: Int) {
         }
     }
 
+    /** Actually writes data to internal storage **/
     private suspend fun writeData(data : String) {
         try {
             localVfs(filepath)[filename].writeString(data)

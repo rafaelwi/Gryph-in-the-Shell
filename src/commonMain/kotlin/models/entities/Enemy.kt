@@ -10,6 +10,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
 
+/** Data for enemies **/
 @Serializable(with = Enemy.EnemySerializer::class)
 class Enemy(name: String, maxHealth: Double,
             private var spriteFileLoc: String,
@@ -19,7 +20,8 @@ class Enemy(name: String, maxHealth: Double,
             private var spriteMapRows: Int,
             private var attackMoveset: AttackMoveset): PlayerEntity(name, maxHealth) {
 
-    // To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062
+    /** Serialization/deserialization enemy object to JSON
+        To properly serialize the object for JSON, see https://stackoverflow.com/a/65272372/5310062 **/
     @OptIn(ExperimentalSerializationApi::class)
     @Serializer(forClass = Enemy::class)
     object EnemySerializer : KSerializer<Enemy> {
@@ -79,40 +81,20 @@ class Enemy(name: String, maxHealth: Double,
         }
     }
 
-    fun setSpriteFileLoc(newSpriteFileLoc: String) {
-        spriteFileLoc = newSpriteFileLoc
-    }
-
     fun getSpriteFileLoc(): String {
         return spriteFileLoc
-    }
-
-    fun setSpriteWidth(newSpriteWidth: Int) {
-        spriteWidth = newSpriteWidth
     }
 
     fun getSpriteWidth(): Int {
         return spriteWidth
     }
 
-    fun setSpriteHeight(newSpriteHeight: Int) {
-        spriteHeight = newSpriteHeight
-    }
-
     fun getSpriteHeight(): Int {
         return spriteHeight
     }
 
-    fun setSpriteMapCols(newSpriteMapCols: Int) {
-        spriteMapCols = newSpriteMapCols
-    }
-
     fun getSpriteMapCols(): Int {
         return spriteMapCols
-    }
-
-    fun setSpriteMapRows(newSpriteMapRows: Int) {
-        spriteMapRows = newSpriteMapRows
     }
 
     fun getSpriteMapRows(): Int {

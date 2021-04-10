@@ -1,23 +1,22 @@
 package scenes
 
-import com.soywiz.klogger.Console
+import MainModule
 import com.soywiz.korge.scene.Scene
-import com.soywiz.korge.view.*
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.position
+import com.soywiz.korge.view.text
 import com.soywiz.korim.text.TextAlignment
 import constants.DebugStatus
-import models.ScreenManager
 import models.LevelData
+import models.ScreenManager
 
-var DEBUG_STAT = DebugStatus.OFF
+/** Scene where main gameplay happens **/
+class LevelScene (val levelData: LevelData) : Scene() {
+    private var DEBUG_STAT = DebugStatus.OFF
+    private val deviceWidth : Int = MainModule.size.width
 
-class LevelScene (levelData: LevelData) : Scene() {
-    val deviceWidth : Int = MainModule.size.width
-    val deviceHeight : Int = MainModule.size.height
-    val levelData : LevelData = levelData
-
-    // Entrypoint
+    /** Initialize scene **/
     override suspend fun Container.sceneInit() {
-        //val level = LevelDataFactory.createTestLevel(game)
         levelData.setScreenManager(ScreenManager(sceneView, levelData.getLevelManager()))
         addChild(levelData)
         levelData.init()

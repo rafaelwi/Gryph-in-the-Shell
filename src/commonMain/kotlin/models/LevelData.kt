@@ -1,26 +1,23 @@
 package models
 
-import com.soywiz.klock.*
-import com.soywiz.klogger.Console
+import MainModule
+import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
+import com.soywiz.klock.timesPerSecond
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
-import com.soywiz.korio.resources.resource
 import com.soywiz.korma.geom.Anchor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import models.components.GameOverMenu
 import models.entities.Enemy
 import models.entities.Player
-import models.components.GameOverMenu
-import models.entities.LevelScore
 import models.gui.LevelBackground
 import models.gui.PlayerGui
-import kotlin.coroutines.coroutineContext
 
+/** Holds data about the level (enemy, background, etc.) **/
 @Serializable
 class LevelData(private val levelName: String,
                 @Transient
@@ -56,19 +53,19 @@ class LevelData(private val levelName: String,
         initGameOverMenu()
 
         addFixedUpdater(60.timesPerSecond) {
-            this.checkGameStatus(score)
-            this.updateEnemyStatus(score)
+            this.checkGameStatus()
+            this.updateEnemyStatus()
             this.checkScreenStatus()
         }
 
     }
 
-    fun initGui() {
+    private fun initGui() {
         playerGui = this.buildGui(levelManager, currentPlayer, currentEnemy)
         this.addChild(playerGui)
     }
 
-    suspend fun initStage() {
+    private suspend fun initStage() {
         this.buildStage(levelBackground)
     }
 
@@ -79,12 +76,12 @@ class LevelData(private val levelName: String,
         this.startAnimation(enemySprite)
     }
 
-    suspend fun initMechanics() {
+    private suspend fun initMechanics() {
         levelMechanics = this.buildGameMechanics(this, levelManager, enemySprite, currentEnemy, currentPlayer)
         levelMechanics.init()
     }
 
-    fun initGameOverMenu() {
+    private fun initGameOverMenu() {
         gameOverMenu = this.buildGameOverMenu(levelManager)
     }
 
@@ -123,7 +120,7 @@ class LevelData(private val levelName: String,
     }
 
     /** Game Status Updater */
-    private fun checkGameStatus(dt: TimeSpan?) {
+    private fun checkGameStatus() {
         if ((currentPlayer?.getHealth()!! <= 0.0 || currentEnemy.getHealth() <= 0.0) && levelManager?.getIsOngoing() == true)  {
             levelManager?.finish()
             this.addChild(gameOverMenu)
@@ -131,19 +128,15 @@ class LevelData(private val levelName: String,
     }
 
     private fun checkScreenStatus() {
-        screenManager?.check()
+        screenManager?.checkShakeScreen()
     }
 
-    private fun updateEnemyStatus(dt: TimeSpan?) {
-        levelMechanics.initiateAttack(dt)
+    private fun updateEnemyStatus() {
+        levelMechanics.initiateAttack()
     }
 
     private fun startAnimation(sprite: Sprite) {
         sprite.playAnimationLooped(spriteDisplayTime = 150.milliseconds)
-    }
-
-    private fun stopAnimation(sprite: Sprite) {
-        sprite.stopAnimation()
     }
 
     fun getLevelManager(): LevelManager? {
