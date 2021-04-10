@@ -1,23 +1,25 @@
 package models
 
 import com.soywiz.klock.TimeSpan
-import com.soywiz.klogger.Console
-import com.soywiz.korge.input.*
+import com.soywiz.korge.input.mouse
+import com.soywiz.korge.input.onUpAnywhere
+import com.soywiz.korge.input.scaleRecognizer
+import com.soywiz.korge.input.touch
 import com.soywiz.korge.view.Sprite
+import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.hitTest
-import com.soywiz.korge.view.*
 import com.soywiz.korma.geom.Point
-import models.entities.Enemy
 import models.components.SwipeComponent
 import models.entities.AttackMovesetPlayer
+import models.entities.Enemy
 import models.entities.Player
 
+/** Holds technical objects related to level (player object, etc.) **/
 class LevelMechanics(private var levelData: LevelData,
                      private var levelManager: LevelManager?,
                      private var enemySprite: Sprite,
                      private var currentEnemy: Enemy,
                      private var currentPlayer: Player?) {
-
     private lateinit var enemyMovesetPlayer: AttackMovesetPlayer
 
     suspend fun init() {
@@ -30,10 +32,10 @@ class LevelMechanics(private var levelData: LevelData,
         enemyMovesetPlayer = AttackMovesetPlayer(currentEnemy.getAttackMoveset(), levelManager, currentPlayer)
     }
 
+    /** Block mechanics **/
     private fun initHoldMechanic() {
         levelData.touch {
             scaleRecognizer {
-                //Initializes as recognized somehow?
                 if (levelManager?.getIsOngoing() == true) {
                     enemyMovesetPlayer.nullify()
                     levelManager!!.setIsDefending(true)
@@ -51,12 +53,12 @@ class LevelMechanics(private var levelData: LevelData,
         }
     }
 
+    /** Attack mechanics **/
     private suspend fun initSwipeMechanics() {
         var swipeHit = false
         var inDrag = false
         var dragPoint: Point? = null
-        var swipeGraphic = SwipeComponent(levelManager, levelData.mouse)
-        var totalDamage = 0.0
+        val swipeGraphic = SwipeComponent(levelManager, levelData.mouse)
 
         swipeGraphic.init()
         levelData.addChild(swipeGraphic)
@@ -76,14 +78,9 @@ class LevelMechanics(private var levelData: LevelData,
             }
             onUpAnywhere {
                 if (inDrag && swipeHit && levelManager?.getIsOngoing() == true) {
-                    //Drag distance / Screen size -> Multiplier
-                    //totalDamage = dragPoint?.distanceTo(it.downPosStage) ?: 0.0
-                    //Console.log(totalDamage)
-                    //Console.log(swipeHit)
                     //Reduce enemy health by scaled damage
                     currentEnemy.reduceHealth(10.0)
                 }
-                totalDamage = 0.0
                 dragPoint = null
                 swipeHit = false
                 inDrag = false
@@ -93,8 +90,7 @@ class LevelMechanics(private var levelData: LevelData,
         }
     }
 
-    fun initiateAttack(dt: TimeSpan?) {
+    fun initiateAttack() {
         enemyMovesetPlayer.playMoveset()
     }
-
 }

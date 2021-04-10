@@ -38,7 +38,7 @@ object PlacemarkerFactory {
         val icon : String = if (p.complete) "map\\placemark_complete.png" else "map\\placemark_incomplete.png"
 
         // Add level managers
-        p.levelData?.setLevelManager(LevelManager(c, sc))
+        p.levelData?.setLevelManager(LevelManager(sc))
         p.levelData?.setCurrentPlayer(Player("Hero", 100.0))
 
         // Draw the visual components of the placemarker

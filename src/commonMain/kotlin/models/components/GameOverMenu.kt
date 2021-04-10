@@ -8,10 +8,9 @@ import com.soywiz.korma.geom.Anchor
 import models.LevelManager
 import models.entities.LevelScoreIO
 import scenes.GryphScene
-import scenes.MapScene
 
+/** Mini popup showing player when game is complete **/
 class GameOverMenu(private val levelManager: LevelManager?): Container() {
-
     private lateinit var levelScoreIo: LevelScoreIO
     private var backGround: SolidRect = solidRect(300, 150, Colors.WHITE) {
         anchor(Anchor.MIDDLE_CENTER)
@@ -19,11 +18,9 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
     private var menuText: Text = text("Game Over") {
         textSize = 50.0
         color = Colors.BLACK
-        //I don't get why this puts the object to the top center
         alignment = TextAlignment.BOTTOM_CENTER
     }
     private var exitButton: SolidRect = solidRect(180, 40, Colors.RED) {
-        //Why does this put it in the bottom center too?
         anchor(Anchor.TOP_CENTER)
         mouse {
             over {
@@ -43,6 +40,7 @@ class GameOverMenu(private val levelManager: LevelManager?): Container() {
         }
     }
 
+    /** Initialzies container and adds items to it **/
     init {
         addChild(backGround)
         addChild(menuText)

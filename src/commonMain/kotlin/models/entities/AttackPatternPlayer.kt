@@ -5,15 +5,14 @@ import com.soywiz.klock.milliseconds
 import com.soywiz.klogger.Console
 import models.LevelManager
 
+/** Handles playing the attack pattern **/
 class AttackPatternPlayer(private var attackPattern: AttackPattern,
                           private var levelManager: LevelManager?,
                           private var currentPlayer: Player?) {
-
-    private var currentCycles: Int
+    private var currentCycles: Int = attackPattern.getTotalCycles()
     private var nextCycleTimestamp: TimeSpan
 
     init {
-        currentCycles = attackPattern.getTotalCycles()
         nextCycleTimestamp = 0.milliseconds
     }
 
@@ -21,11 +20,11 @@ class AttackPatternPlayer(private var attackPattern: AttackPattern,
         return currentCycles == 0
     }
 
-    fun getCurrentCycles(): Int {
+    private fun getCurrentCycles(): Int {
         return currentCycles
     }
 
-    fun getNextAttackTimestamp(currTime: TimeSpan): TimeSpan {
+    private fun getNextAttackTimestamp(currTime: TimeSpan): TimeSpan {
         return currTime + attackPattern.getTimeBetweenCycles()
     }
 
@@ -33,13 +32,15 @@ class AttackPatternPlayer(private var attackPattern: AttackPattern,
         currentCycles -= 1
     }
 
-    fun applyAttack() {
+    /** Select pattern **/
+    private fun applyAttack() {
         levelManager!!.triggerIsHit()
         currentPlayer?.reduceHealth(attackPattern.getDamage())
         Console.log("Attack ${currentCycles} of ${attackPattern.getDamage()}")
         this.decrementCycle()
     }
 
+    /** Use pattern **/
     fun playPattern(currTime: TimeSpan, patternTimestamp: TimeSpan) {
         if (currTime >= patternTimestamp) {
             if (this.getCurrentCycles() > 0 && currTime >= nextCycleTimestamp) {

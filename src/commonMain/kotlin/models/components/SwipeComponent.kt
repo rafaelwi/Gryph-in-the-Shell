@@ -8,17 +8,14 @@ import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.Point
 import models.LevelManager
 
-/**
- * Note: Possible that there's some inconsistencies in swipes after thorough testing. Will investigate further later.
- */
+/** Detects swipes from player/handles swipe effects **/
 class SwipeComponent(private val levelManager: LevelManager?, private val mouse: MouseEvents): Container() {
-
     private lateinit var particleEmitterView: ParticleEmitterView
     private lateinit var particleEmitter: ParticleEmitter
     private lateinit var particleEmitterPos: Point
     var inSwipe = false
 
-
+    /** Initialize particle emitter **/
     suspend fun init() {
         particleEmitterPos = Point(-100.0, -100.0)
         particleEmitter = resourcesVfs["particles/fire.pex"].readParticleEmitter()
@@ -28,16 +25,18 @@ class SwipeComponent(private val levelManager: LevelManager?, private val mouse:
         }
     }
 
+    /** Set swiping status **/
     fun setSwipe(isDrag: Boolean) {
-        inSwipe = isDrag;
+        inSwipe = isDrag
     }
 
-    fun updateSwipe(currentPos: Point) {
+    /** Update location of particle emitter **/
+    private fun updateSwipe(currentPos: Point) {
         particleEmitterPos.setTo(currentPos.x, currentPos.y)
     }
 
+    /** Move particle emitter back to original location **/
     fun resetSwipe() {
         particleEmitterPos.setTo(-100.0, -100.0)
     }
-
 }

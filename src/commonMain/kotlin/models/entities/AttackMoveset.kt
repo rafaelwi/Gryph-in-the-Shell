@@ -2,6 +2,7 @@ package models.entities
 
 import kotlinx.serialization.Serializable
 
+/** Holds multiple attack patterns **/
 @Serializable()
 class AttackMoveset(private var attackPatterns: Array<AttackPattern>) {
 
@@ -12,5 +13,4 @@ class AttackMoveset(private var attackPatterns: Array<AttackPattern>) {
     fun getAttackPatterns(): Array<AttackPattern> {
         return attackPatterns
     }
-
 }

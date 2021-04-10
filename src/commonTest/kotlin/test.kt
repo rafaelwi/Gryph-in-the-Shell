@@ -38,12 +38,12 @@ class MyTest : ViewsForTesting() {
 	fun testLevelData() {
 		println("---------------------- Level Data Test ----------------------")
 		val testContainer = Container()
-		val testManager = LevelManager(testContainer, null)
+		val testManager = LevelManager(null)
 		val testScreenManager = ScreenManager(testContainer, testManager)
 		val testScore = TimeSpan(0.0)
 		val testPlayer = Player("test_player", 1.0)
-		var testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-		var testAttackMoveset = AttackMoveset(arrayOf(testAttackPattern))
+		val testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val testAttackMoveset = AttackMoveset(arrayOf(testAttackPattern))
 		val testEnemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0, testAttackMoveset)
 		val testBackground = LevelBackground("test_level", "fileLocation/testBackgroundFile")
 
@@ -55,8 +55,8 @@ class MyTest : ViewsForTesting() {
 	@Test
 	fun testLevelManager() {
 		println("---------------------- Level Manager Test ----------------------")
-		val testContainer = Container()
-		val testManager = LevelManager(testContainer, null)
+		Container()
+		val testManager = LevelManager(null)
 
 		println(testManager.toString())
 	}
@@ -64,8 +64,8 @@ class MyTest : ViewsForTesting() {
 	@Test
 	fun testPlayerEntity() {
 		println("---------------------- Player Entity Test ----------------------")
-		var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-		var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
+		val basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
 
 		val player = Player("test_player", 1.0)
 		val enemy = Enemy("test_enemy", 10000.0, "fileLocation/testFile", 0, 0, 0, 0, basicAttackMoveset)
@@ -102,8 +102,8 @@ class MyTest : ViewsForTesting() {
 		println(pJson)
 		*/
 		println("---------------------- Initial JSON Test ----------------------")
-		var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-		var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
+		val basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
 		val world = GameMap(1, "map\\grass.png",
 		listOf(Placemarker(1, 300, 300, false,
 				LevelData("First Level", TimeSpan(60000.0),
@@ -118,8 +118,8 @@ class MyTest : ViewsForTesting() {
 	fun testEnemySerialization() {
 		println("---------------------- Enemy Json Test ----------------------")
 		println("1. Object Encoding (to Json)")
-		var basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-		var basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
+		val basicAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val basicAttackMoveset = AttackMoveset(arrayOf(basicAttackPattern))
 		val enemy = Enemy("Leroy", 100.0, "ballbot\\spritesheet.png", 64, 64, 2, 2, basicAttackMoveset)
 		var sEnemy = Json.encodeToString(enemy)
 		sEnemy = sEnemy.substring(1, sEnemy.length - 1)
@@ -153,7 +153,7 @@ class MyTest : ViewsForTesting() {
 	fun testAttackPatternJson() {
 		println("---------------------- Attack Pattern Json Test ----------------------")
 		println("1. Object Encoding (to Json)")
-		var testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
 		val pPattern = Json{prettyPrint = true}.encodeToString(testAttackPattern)
 		println(pPattern)
 		println("2. Object Decoding (from Json)")
@@ -174,8 +174,8 @@ class MyTest : ViewsForTesting() {
 	fun testAttackMovesetJson() {
 		println("---------------------- Attack Moveset Json Test ----------------------")
 		println("1. Object Encoding (to Json)")
-		var testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
-		var testAttackMoveset = AttackMoveset(arrayOf(testAttackPattern))
+		val testAttackPattern = AttackPattern(5.0, 5000.0, 3, 1000.0)
+		val testAttackMoveset = AttackMoveset(arrayOf(testAttackPattern))
 		val pMoveset = Json{prettyPrint = true}.encodeToString(testAttackMoveset)
 		println(pMoveset)
 		println("2. Object Decoding (from Json)")

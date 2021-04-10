@@ -2,11 +2,10 @@ package models
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.scene.SceneContainer
-import com.soywiz.korge.view.Container
 import constants.LevelStatus
 
-class LevelManager(private val mainScreen : Container, val sceneContainer: SceneContainer?) {
-
+/** Manages the status of the level **/
+class LevelManager(val sceneContainer: SceneContainer?) {
     private var isOngoing: Boolean
     private var battleStatus: LevelStatus
     private var levelTimer: LevelTimer
@@ -23,7 +22,7 @@ class LevelManager(private val mainScreen : Container, val sceneContainer: Scene
 
     fun start() {
         levelTimer.startTimer()
-        isOngoing = true;
+        isOngoing = true
         battleStatus = LevelStatus.ON
     }
 

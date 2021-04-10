@@ -5,8 +5,8 @@ import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.position
 import kotlin.random.Random
 
+/** Manages screen shaking **/
 class ScreenManager(private val sceneView: Container, private val levelManager: LevelManager?) {
-
     private var screenShakeTimer = 0.seconds
     private var screenShakeDuration = 2.seconds
 
@@ -15,26 +15,16 @@ class ScreenManager(private val sceneView: Container, private val levelManager: 
         screenShakeDuration = .6.seconds
     }
 
-    fun check() {
-        checkScreenStatus()
-        checkShakeScreen()
-    }
-
-    private fun checkScreenStatus() {
-
-    }
-
-    private fun checkShakeScreen() {
+    fun checkShakeScreen() {
         if (levelManager!!.getIsHit()) {
             if (screenShakeTimer <= screenShakeDuration) {
                 sceneView.position(Random.nextDouble(-10.0, 10.0), Random.nextDouble(-5.0, 5.0))
                 screenShakeTimer += levelManager.getCurrTime()
             } else {
                 screenShakeTimer = 0.seconds
-                levelManager!!.triggerIsHit()
+                levelManager.triggerIsHit()
                 sceneView.position(0, 0)
             }
         }
     }
-
 }

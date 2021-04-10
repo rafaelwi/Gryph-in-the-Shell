@@ -8,11 +8,12 @@ import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
 import kotlinx.serialization.encoding.*
 
+/** Holds the score accquired in a level **/
 @Serializable(with = LevelScore.LevelScoreSerializer::class)
 class LevelScore(private var world: Int,
                  private var level: Int,
                  private var time: Double) {
-
+    /** Serialization/deserialization to JSON **/
     object LevelScoreSerializer : KSerializer<LevelScore> {
         override val descriptor: SerialDescriptor = buildClassSerialDescriptor("LevelScore") {
             element<Int>("world")
@@ -53,10 +54,6 @@ class LevelScore(private var world: Int,
                 )
             }
         }
-    }
-
-    fun setScore(newTime: Double) {
-        time = newTime
     }
 
     fun getScore(): Double {

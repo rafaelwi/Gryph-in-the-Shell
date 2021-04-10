@@ -3,12 +3,13 @@ package models.entities
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
+/** General class for "alive" game objects (players + enemies) **/
 @Serializable
 open class PlayerEntity(private var name: String,
                         private var maxHealth: Double) {
 
     @Transient
-    private var currentHealth = maxHealth;
+    private var currentHealth = maxHealth
 
     fun setName(newName: String) {
         name = newName
@@ -16,10 +17,6 @@ open class PlayerEntity(private var name: String,
 
     fun getName(): String {
         return name
-    }
-
-    fun setMaxHealth(newMaxHealth: Double) {
-        maxHealth = newMaxHealth
     }
 
     fun getMaxHealth(): Double {
