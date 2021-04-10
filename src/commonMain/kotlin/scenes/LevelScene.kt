@@ -8,16 +8,13 @@ import constants.DebugStatus
 import models.ScreenManager
 import models.LevelData
 
-var DEBUG_STAT = DebugStatus.OFF
-
-class LevelScene (levelData: LevelData) : Scene() {
+class LevelScene (val levelData: LevelData) : Scene() {
+    var DEBUG_STAT = DebugStatus.OFF
     val deviceWidth : Int = MainModule.size.width
     val deviceHeight : Int = MainModule.size.height
-    val levelData : LevelData = levelData
 
     // Entrypoint
     override suspend fun Container.sceneInit() {
-        //val level = LevelDataFactory.createTestLevel(game)
         levelData.setScreenManager(ScreenManager(sceneView, levelData.getLevelManager()))
         addChild(levelData)
         levelData.init()

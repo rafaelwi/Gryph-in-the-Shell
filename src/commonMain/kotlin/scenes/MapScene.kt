@@ -24,17 +24,6 @@ class MapScene : Scene() {
     // Entrypoint
     override suspend fun Container.sceneInit() {
         GameMapFactory.createGameMap(this, sceneContainer, "leveldata\\world1.json")
-
-        // Settings button, can be added to the GameMapFactory
-        image(SETTINGS_ICON.readBitmap()) {
-            anchor(Anchor.TOP_RIGHT)
-            position(deviceWidth, 0)
-            mouse {
-                over { tint = Colors.SLATEGRAY }
-                out { tint = Colors.WHITE } // removes tint
-                onClick { sceneContainer.changeTo(SettingsScene::class) }
-            }
-        }
     }
 
     @Deprecated("Don't use this")
@@ -54,11 +43,9 @@ class MapScene : Scene() {
                 mouse {
                     over { tint = Colors.ORANGERED }
                     out { tint = Colors.ORANGE }
-                    // TODO: We need to pass the placemarker's BattleStage data into the onClick (see injectors?)
                     onClick { sceneContainer.changeTo(LevelScene::class) }
                 }
             }
         }
-        // TODO: Function to draw "paths" between the placemarkers (just two straight lines)
     }
 }

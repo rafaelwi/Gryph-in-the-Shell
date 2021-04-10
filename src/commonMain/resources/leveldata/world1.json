@@ -1,6 +1,6 @@
 {
   "world": 1,
-  "backgroundPath": "map\\grass.png",
+  "backgroundPath": "map\\city.png",
   "levels": [
     {
       "level": 1,

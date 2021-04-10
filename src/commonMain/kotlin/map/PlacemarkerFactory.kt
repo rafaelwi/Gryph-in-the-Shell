@@ -28,7 +28,6 @@ object PlacemarkerFactory {
     }
 
     //Create the text and place it appropriately. If gets null, then no score and display default: (Incomplete), else display score
-
     suspend fun createPlacemarker (c : Container, sc : SceneContainer, p: Placemarker, w: Int) {
         val icon : String
         val levelScore: LevelScore? = LevelScoreIO(w, p.level).readLevelScore()
@@ -42,14 +41,14 @@ object PlacemarkerFactory {
         icon = if (p.complete) "map\\placemark_complete.png" else "map\\placemark_incomplete.png"
 
         p.levelData?.setLevelManager(LevelManager(c, sc))
-        p.levelData?.setCurrentPlayer(Player("Hero", 100.0)) // We can pass character obj here?
+        p.levelData?.setCurrentPlayer(Player("Hero", 100.0))
 
         if (levelScore == null) {
-            c.text("Incomplete", color = Colors.BLACK, textSize = 70.0, alignment = TextAlignment.MIDDLE_CENTER) {
+            c.text("Incomplete", color = Colors.WHITE, textSize = 70.0, alignment = TextAlignment.MIDDLE_CENTER) {
                 position(p.xLocation, p.yLocation - 120)
             }
         } else {
-            c.text("Current Best: ${levelScore.getScore().roundDecimalPlaces(1)}s", color = Colors.BLACK, textSize = 70.0, alignment = TextAlignment.MIDDLE_CENTER) {
+            c.text("Current Best: ${levelScore.getScore().roundDecimalPlaces(1)}s", color = Colors.WHITE, textSize = 70.0, alignment = TextAlignment.MIDDLE_CENTER) {
                 position(p.xLocation, p.yLocation - 120)
             }
         }
